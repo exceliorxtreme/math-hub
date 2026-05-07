@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="res_title">📚 Resurse Matematice</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Stiluri specifice pentru resources.html */
+    .res-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .res-section { margin: 25px 0; padding: 15px; background: var(--input-bg); border-radius: 8px; border-left: 3px solid var(--accent); }
+    .res-section h3 { margin: 0 0 12px 0; color: var(--accent-dark); font-size: 1.1rem; }
+    .res-list { list-style: none; padding: 0; margin: 0; }
+    .res-list li { margin: 8px 0; padding: 6px 0; border-bottom: 1px dashed var(--border); }
+    .res-list li:last-child { border-bottom: none; }
+    .res-list a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .res-list a:hover { text-decoration: underline; }
+    .res-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; font-style: italic; }
+    .back-link { display: inline-block; margin: 20px 0; padding: 8px 16px; background: var(--hover-bg); border-radius: 6px; color: var(--text); text-decoration: none; }
+    .back-link:hover { background: var(--accent); color: #fff; }
+    @media (max-width: 600px) { .res-container { padding: 10px; } }
+  </style>
+</head>
+<body>
+  <div class="res-container">
+    <a href="index.html" class="back-link" data-i18n="res_back">← Înapoi la Aplicație</a>
+
+    <h1 data-i18n="res_title">📚 Resurse Matematice Recomandate</h1>
+    <p class="res-note" data-i18n="res_intro">Toate link-urile au fost verificate. Pentru aprofundarea subiectelor din aplicație.</p>
+
+    <div class="res-section">
+      <h3 data-i18n="res_uni">🎓 Universități & Cursuri Oficiale</h3>
+      <ul class="res-list">
+        <li><a href="https://ocw.mit.edu" target="_blank" rel="noopener">MIT OpenCourseWare</a> — Calculus, Algebra, Number Theory (EN)</li>
+        <li><a href="https://www.khanacademy.org" target="_blank" rel="noopener">Khan Academy</a> — Toate capitolele, video + exerciții (RO/EN)</li>
+        <li><a href="http://tutorial.math.lamar.edu" target="_blank" rel="noopener">Paul's Online Math Notes</a> — Calculus complet, exemple detaliate (EN)</li>
+        <li><a href="https://www.fmi.unibuc.ro" target="_blank" rel="noopener">Universitatea București — FMI</a> — Analiză, Algebră (RO)</li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h3 data-i18n="res_ref">📖 Referințe & Enciclopedii</h3>
+      <ul class="res-list">
+        <li><a href="https://mathworld.wolfram.com" target="_blank" rel="noopener">Wolfram MathWorld</a> — Enciclopedie riguroasă, toate domeniile</li>
+        <li><a href="https://dlmf.nist.gov" target="_blank" rel="noopener">NIST Digital Library</a> — Funcții speciale, constante matematice</li>
+        <li><a href="https://oeis.org" target="_blank" rel="noopener">OEIS</a> — Șiruri numerice, factori primi, combinatorică</li>
+        <li><a href="https://proofwiki.org" target="_blank" rel="noopener">ProofWiki</a> — Demonstrații pas cu pas, riguroase</li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h3 data-i18n="res_git">💻 Proiecte Similare (GitHub)</h3>
+      <ul class="res-list">
+        <li><a href="https://github.com/mathjax/MathJax" target="_blank" rel="noopener">MathJax/MathJax</a> — Motorul LaTeX folosit în această aplicație</li>
+        <li><a href="https://github.com/3b1b/manim" target="_blank" rel="noopener">3b1b/manim</a> — Animații matematice (3Blue1Brown)</li>
+        <li><a href="https://github.com/sagemath/sage" target="_blank" rel="noopener">sagemath/sage</a> — Sistem complet de algebră computațională</li>
+        <li><a href="https://github.com/topics/math-education" target="_blank" rel="noopener">math-education topics</a> — Diverse proiecte educaționale JS</li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h3 data-i18n="res_vid">🎥 Canale YouTube Excelente</h3>
+      <ul class="res-list">
+        <li><a href="https://www.youtube.com/c/3blue1brown" target="_blank" rel="noopener">3Blue1Brown</a> — Intuiție vizuală, derivates, complex numbers (EN)</li>
+        <li><a href="https://www.youtube.com/user/khanacademy" target="_blank" rel="noopener">Khan Academy</a> — Lecții structurate, toate nivelurile (RO/EN)</li>
+        <li><a href="https://www.youtube.com/user/professorleonard57" target="_blank" rel="noopener">Professor Leonard</a> — Calculus excepțional explicat (EN)</li>
+        <li><a href="https://www.youtube.com/@profudemate" target="_blank" rel="noopener">Profu' de Mate</a> — Lecții video în română (RO)</li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h3 data-i18n="res_tools">🧮 Calculatoare & Vizualizări</h3>
+      <ul class="res-list">
+        <li><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Desmos Graphing</a> — Grafice instant, interactive</li>
+        <li><a href="https://www.geogebra.org" target="_blank" rel="noopener">GeoGebra</a> — Geometrie, algebră, calcul dinamic</li>
+        <li><a href="https://www.wolframalpha.com" target="_blank" rel="noopener">WolframAlpha</a> — Rezolvă orice ecuație, pași explicați</li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h3 data-i18n="res_stats">📊 Pentru Statistică</h3>
+      <ul class="res-list">
+        <li><a href="https://stattrek.com" target="_blank" rel="noopener">Stat Trek</a> — Statistică descriptivă & inferențială</li>
+        <li><a href="https://seeing-theory.brown.edu" target="_blank" rel="noopener">Seeing Theory</a> — Statistică vizuală, interactivă</li>
+        <li><a href="https://stats.stackexchange.com" target="_blank" rel="noopener">Cross Validated</a> — Q&A statistică avansată</li>
+      </ul>
+    </div>
+
+    <p class="res-note" data-i18n="res_footer">💡 Sugestie: Deschide link-urile în tab-uri noi pentru a păstra aplicația deschisă. Toate resursele sunt gratuite și accesibile public.</p>
+
+    <a href="index.html" class="back-link" data-i18n="res_back">← Înapoi la Aplicație</a>
+  </div>
+
+  <!-- Simplu i18n inline pentru resources.html -->
+  <script>
+    const DICT = {
+      ro: {
+        res_title: "📚 Resurse Matematice", res_back: "← Înapoi la Aplicație",
+        res_intro: "Toate link-urile au fost verificate. Pentru aprofundarea subiectelor din aplicație.",
+        res_uni: "🎓 Universități & Cursuri Oficiale", res_ref: "📖 Referințe & Enciclopedii",
+        res_git: "💻 Proiecte Similare (GitHub)", res_vid: "🎥 Canale YouTube Excelente",
+        res_tools: "🧮 Calculatoare & Vizualizări", res_stats: "📊 Pentru Statistică",
+        res_footer: "💡 Sugestie: Deschide link-urile în tab-uri noi pentru a păstra aplicația deschisă. Toate resursele sunt gratuite și accesibile public."
+      },
+      en: {
+        res_title: "📚 Math Resources", res_back: "← Back to App",
+        res_intro: "All links verified. For deepening topics from this application.",
+        res_uni: "🎓 Universities & Official Courses", res_ref: "📖 References & Encyclopedias",
+        res_git: "💻 Similar Projects (GitHub)", res_vid: "🎥 Excellent YouTube Channels",
+        res_tools: "🧮 Calculators & Visualizations", res_stats: "📊 For Statistics",
+        res_footer: "💡 Tip: Open links in new tabs to keep the app open. All resources are free and public."
+      }
+    };
+    const lang = localStorage.getItem('app_lang') || 'ro';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (DICT[lang][key]) el.textContent = DICT[lang][key];
+    });
+    document.documentElement.lang = lang;
+  </script>
+</body>
+</html>
