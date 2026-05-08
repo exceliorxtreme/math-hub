@@ -215,3 +215,55 @@ header { flex-wrap: wrap !important; }
     .ext-new-row { flex-direction: column; gap: 8px; }
     .ext-btn { width: 100%; max-width: 280px; }
 }
+/* ✅ Containerele de taburi: permit wrap controlat */
+.main-tabs, .sub-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 4px;
+    justify-content: flex-start; /* Desktop: aliniere la stânga */
+}
+
+/* ✅ Butoanele taburilor: nu se sparg, se comportă natural */
+.m-tab, .s-tab {
+    flex: 1 1 auto;
+    min-width: fit-content;
+    white-space: nowrap;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* 📱 Tablet & ecrane mici: 2 pe rând, centrate */
+@media (max-width: 768px) {
+    .main-tabs, .sub-tabs {
+        justify-content: center;
+        gap: 8px;
+    }
+    .m-tab, .s-tab {
+        flex: 1 1 calc(50% - 8px); /* exact 2 per row */
+        text-align: center;
+        padding: 10px 8px;
+        font-size: 0.85rem;
+    }
+}
+
+/* 📱 Mobil: 1 pe rând, full width, ușor de apăsat */
+@media (max-width: 480px) {
+    .m-tab, .s-tab {
+        flex: 1 1 100%;
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+    .main-tabs, .sub-tabs {
+        gap: 10px;
+    }
+}
+
+/* ✅ Starea activă rămâne vizibilă pe orice ecran */
+.m-tab.active, .s-tab.active {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+}
