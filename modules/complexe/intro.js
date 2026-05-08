@@ -9,22 +9,22 @@ export function initUI() {
 
     <div class="fsec" style="background:linear-gradient(90deg,#3498db,#2980b9)" data-i18n="cx_forms">${t('cx_forms')}</div>
     <div class="fcard"><div class="fbody">
-    <div class="fline"><strong>Algebrică:</strong> \\(z = a + bi\\)</div>
-    <div class="fline"><strong>Trigonometrică:</strong> \\(z = r(\\cos\\theta + i\\sin\\theta)\\)</div>
-    <div class="fline"><strong>Exponențială:</strong> \\(z = r e^{i\\theta}\\)</div>
+    <div class="fline"><strong data-i18n="cx_form_alg">${t('cx_form_alg')}</strong> \\(z = a + bi\\)</div>
+    <div class="fline"><strong data-i18n="cx_form_trig">${t('cx_form_trig')}</strong> \\(z = r(\\cos\\theta + i\\sin\\theta)\\)</div>
+    <div class="fline"><strong data-i18n="cx_form_exp">${t('cx_form_exp')}</strong> \\(z = r e^{i\\theta}\\)</div>
     <div class="fline" style="margin-top:5px;color:var(--text-muted)"><em>\\(r = |z| = \\sqrt{a^2+b^2}\\), \\(\\theta = \\arg(z)\\)</em></div>
     </div></div>
 
     <div class="fsec" style="background:linear-gradient(90deg,#e67e22,#d35400)" data-i18n="cx_ops">${t('cx_ops')}</div>
     <div class="fcards">
-    <div class="fcard"><div class="fhead">Adunare / Scădere</div><div class="fbody">
+ <div class="fcard"><div class="fhead" data-i18n="cx_op_addsub">${t('cx_op_addsub')}</div><div class="fbody">
     <div class="fline">\\(z_1 \\pm z_2 = (a_1\\pm a_2) + i(b_1\\pm b_2)\\)</div>
     </div></div>
-    <div class="fcard"><div class="fhead">Înmulțire</div><div class="fbody">
+  <div class="fcard"><div class="fhead" data-i18n="cx_op_mul">${t('cx_op_mul')}</div><div class="fbody">
     <div class="fline">\\(z_1 z_2 = (a_1a_2-b_1b_2) + i(a_1b_2+a_2b_1)\\)</div>
     <div class="fline">\\(r_1 r_2 e^{i(\\theta_1+\\theta_2)}\\)</div>
     </div></div>
-    <div class="fcard"><div class="fhead">Împărțire</div><div class="fbody">
+<div class="fcard"><div class="fhead" data-i18n="cx_op_div">${t('cx_op_div')}</div><div class="fbody">
     <div class="fline">\\(\\frac{z_1}{z_2} = \\frac{z_1 \\bar{z_2}}{|z_2|^2}\\)</div>
     <div class="fline">\\(\\frac{r_1}{r_2} e^{i(\\theta_1-\\theta_2)}\\)</div>
     </div></div>
@@ -32,9 +32,9 @@ export function initUI() {
 
     <div class="fsec" style="background:linear-gradient(90deg,#9b59b6,#8e44ad)" data-i18n="cx_euler">${t('cx_euler')}</div>
     <div class="fcard"><div class="fbody">
-    <div class="fline"><strong>Formula lui Euler:</strong> \\(e^{i\\theta} = \\cos\\theta + i\\sin\\theta\\)</div>
-    <div class="fline"><strong>Identitatea lui Euler:</strong> \\(e^{i\\pi} + 1 = 0\\)</div>
-    <div class="fline"><strong>De Moivre:</strong> \\(z^n = r^n e^{in\\theta} = r^n(\\cos n\\theta + i\\sin n\\theta)\\)</div>
+    <div class="fline"><strong data-i18n="cx_euler_formula">${t('cx_euler_formula')}</strong> \\(e^{i\\theta} = \\cos\\theta + i\\sin\\theta\\)</div>
+    <div class="fline"><strong data-i18n="cx_euler_identity">${t('cx_euler_identity')}</strong> \\(e^{i\\pi} + 1 = 0\\)</div>
+    <div class="fline"><strong data-i18n="cx_de_moivre">${t('cx_de_moivre')}</strong> \\(z^n = r^n e^{in\\theta} = r^n(\\cos n\\theta + i\\sin n\\theta)\\)</div>
     </div></div>
 
     <div style="margin-top:12px;font-size:0.85rem;color:var(--text-muted);line-height:1.6;background:var(--input-bg);padding:10px;border-radius:6px;">
