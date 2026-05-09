@@ -447,7 +447,7 @@ export const DICT = {
         prob_label_pb: "P(B)",
         prob_label_panb: "P(A | ¬B)",
         prob_label_pnb: "P(¬B)",
-        nt_subst_note: "with \\(u = g(x)\\)",
+        int_subst_note: "with \\(u = g(x)\\)",
         int_parts_note: "Choose \\(u\\) that simplifies upon differentiation",
         int_frac_note: "Partial fraction decomposition",
     }
