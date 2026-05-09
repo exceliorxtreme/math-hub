@@ -79,7 +79,7 @@ export function initUI() {
     </div>
     `;
 
-    // 📐 Logică Pascal & Binom
+     // 📐 Logică Pascal & Binom
     const renderPascal = () => {
         const nInput = document.getElementById('pascal-n');
         let n = parseInt(nInput.value);
@@ -95,7 +95,12 @@ export function initUI() {
         for (let i = 0; i <= n; i++) {
             let row = [];
             for (let j = 0; j <= i; j++) {
-                row.push(j === 0 || j === i ? 1 : row[j - 1] + (coeffs[i - 1] ? coeffs[i - 1][j] : 0));
+                // ✅ Corecție: folosește exclusiv rândul anterior (i-1)
+                if (j === 0 || j === i) {
+                    row.push(1);
+                } else {
+                    row.push(coeffs[i-1][j-1] + coeffs[i-1][j]);
+                }
             }
             coeffs.push(row);
             html += `<div style="display:flex; justify-content:center; gap:5px; margin:4px 0;">`;
@@ -121,7 +126,6 @@ export function initUI() {
             MathJax.typesetPromise([res]).catch(() => {});
         }
     };
-
     document.getElementById('btn-pascal').addEventListener('click', renderPascal);
     document.getElementById('pascal-n').addEventListener('change', renderPascal);
     renderPascal(); // Randare inițială
