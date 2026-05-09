@@ -1,122 +1,252 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="res_title">📚 Resurse Matematice</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Stiluri specifice pentru resources.html */
-    .res-container { max-width: 900px; margin: 0 auto; padding: 20px; }
-    .res-section { margin: 25px 0; padding: 15px; background: var(--input-bg); border-radius: 8px; border-left: 3px solid var(--accent); }
-    .res-section h3 { margin: 0 0 12px 0; color: var(--accent-dark); font-size: 1.1rem; }
-    .res-list { list-style: none; padding: 0; margin: 0; }
-    .res-list li { margin: 8px 0; padding: 6px 0; border-bottom: 1px dashed var(--border); }
-    .res-list li:last-child { border-bottom: none; }
-    .res-list a { color: var(--accent); text-decoration: none; font-weight: 500; }
-    .res-list a:hover { text-decoration: underline; }
-    .res-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; font-style: italic; }
-    .back-link { display: inline-block; margin: 20px 0; padding: 8px 16px; background: var(--hover-bg); border-radius: 6px; color: var(--text); text-decoration: none; }
-    .back-link:hover { background: var(--accent); color: #fff; }
-    @media (max-width: 600px) { .res-container { padding: 10px; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Suite — Resurse</title>
+<link rel="stylesheet" href="css/style.css?v=115">
+<style>
+  /* === RESURSE SPECIFIC STYLES === */
+  .res-grid { display: grid; gap: 12px; margin-top: 15px; }
+  .res-card {
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 14px; background: var(--hover-bg); border: 1px solid var(--border);
+    border-radius: 8px; transition: transform 0.2s, border-color 0.2s;
+  }
+  .res-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .res-title { font-weight: 700; color: var(--accent); font-size: 0.95rem; display: flex; align-items: center; gap: 6px; }
+  .res-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
+  .res-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text); text-decoration: none; font-size: 0.82rem;
+    padding: 4px 8px; border-radius: 6px; background: var(--input-bg);
+    border: 1px solid var(--input-border); transition: 0.2s;
+  }
+  .res-link:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+  .res-section { margin-top: 20px; }
+  .res-section-title {
+    font-size: 1.1rem; font-weight: 700; color: var(--text);
+    padding-bottom: 8px; border-bottom: 2px solid var(--accent-dark);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .badge-new {
+    background: var(--accent); color: #000; font-size: 0.7rem;
+    padding: 2px 6px; border-radius: 4px; font-weight: 700;
+  }
+  @media (max-width: 600px) {
+    .res-grid { grid-template-columns: 1fr !important; }
+    .res-card { padding: 12px; }
+  }
+</style>
 </head>
 <body>
-  <div class="res-container">
-    <a href="index.html" class="back-link" data-i18n="res_back">← Înapoi la Aplicație</a>
-
-    <h1 data-i18n="res_title">📚 Resurse Matematice Recomandate</h1>
-    <p class="res-note" data-i18n="res_intro">Toate link-urile au fost verificate. Pentru aprofundarea subiectelor din aplicație.</p>
-
-    <div class="res-section">
-      <h3 data-i18n="res_uni">🎓 Universități & Cursuri Oficiale</h3>
-      <ul class="res-list">
-        <li><a href="https://ocw.mit.edu" target="_blank" rel="noopener">MIT OpenCourseWare</a> — Calculus, Algebra, Number Theory (EN)</li>
-        <li><a href="https://www.khanacademy.org" target="_blank" rel="noopener">Khan Academy</a> — Toate capitolele, video + exerciții (RO/EN)</li>
-        <li><a href="http://tutorial.math.lamar.edu" target="_blank" rel="noopener">Paul's Online Math Notes</a> — Calculus complet, exemple detaliate (EN)</li>
-        <li><a href="https://www.fmi.unibuc.ro" target="_blank" rel="noopener">Universitatea București — FMI</a> — Analiză, Algebră (RO)</li>
-      </ul>
+<div class="container">
+  <!-- Header -->
+  <header class="header">
+    <h2 data-i18n="res_title">📚 Resurse Matematice</h2>
+    <div class="lang-switch">
+      <button class="lang-link active" data-lang="ro">🇷🇴 RO</button> |
+      <button class="lang-link" data-lang="en">🇬🇧 EN</button>
     </div>
+    <a href="index.html" class="ext-btn" style="margin-top:10px; width:100%; justify-content:center;" data-i18n="res_back">↩️ Înapoi la Math Suite</a>
+  </header>
 
-    <div class="res-section">
-      <h3 data-i18n="res_ref">📖 Referințe & Enciclopedii</h3>
-      <ul class="res-list">
-        <li><a href="https://mathworld.wolfram.com" target="_blank" rel="noopener">Wolfram MathWorld</a> — Enciclopedie riguroasă, toate domeniile</li>
-        <li><a href="https://dlmf.nist.gov" target="_blank" rel="noopener">NIST Digital Library</a> — Funcții speciale, constante matematice</li>
-        <li><a href="https://oeis.org" target="_blank" rel="noopener">OEIS</a> — Șiruri numerice, factori primi, combinatorică</li>
-        <li><a href="https://proofwiki.org" target="_blank" rel="noopener">ProofWiki</a> — Demonstrații pas cu pas, riguroase</li>
-      </ul>
-    </div>
-
-    <div class="res-section">
-      <h3 data-i18n="res_git">💻 Proiecte Similare (GitHub)</h3>
-      <ul class="res-list">
-        <li><a href="https://github.com/mathjax/MathJax" target="_blank" rel="noopener">MathJax/MathJax</a> — Motorul LaTeX folosit în această aplicație</li>
-        <li><a href="https://github.com/3b1b/manim" target="_blank" rel="noopener">3b1b/manim</a> — Animații matematice (3Blue1Brown)</li>
-        <li><a href="https://github.com/sagemath/sage" target="_blank" rel="noopener">sagemath/sage</a> — Sistem complet de algebră computațională</li>
-        <li><a href="https://github.com/topics/math-education" target="_blank" rel="noopener">math-education topics</a> — Diverse proiecte educaționale JS</li>
-      </ul>
-    </div>
-
-    <div class="res-section">
-      <h3 data-i18n="res_vid">🎥 Canale YouTube Excelente</h3>
-      <ul class="res-list">
-        <li><a href="https://www.youtube.com/c/3blue1brown" target="_blank" rel="noopener">3Blue1Brown</a> — Intuiție vizuală, derivates, complex numbers (EN)</li>
-        <li><a href="https://www.youtube.com/user/khanacademy" target="_blank" rel="noopener">Khan Academy</a> — Lecții structurate, toate nivelurile (RO/EN)</li>
-        <li><a href="https://www.youtube.com/user/professorleonard57" target="_blank" rel="noopener">Professor Leonard</a> — Calculus excepțional explicat (EN)</li>
-       
-      </ul>
-    </div>
-
-    <div class="res-section">
-      <h3 data-i18n="res_tools">🧮 Calculatoare & Vizualizări</h3>
-      <ul class="res-list">
-        <li><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Desmos Graphing</a> — Grafice instant, interactive</li>
-        <li><a href="https://www.geogebra.org" target="_blank" rel="noopener">GeoGebra</a> — Geometrie, algebră, calcul dinamic</li>
-        <li><a href="https://www.wolframalpha.com" target="_blank" rel="noopener">WolframAlpha</a> — Rezolvă orice ecuație, pași explicați</li>
-      </ul>
-    </div>
-
-    <div class="res-section">
-      <h3 data-i18n="res_stats">📊 Pentru Statistică</h3>
-      <ul class="res-list">
-        <li><a href="https://stattrek.com" target="_blank" rel="noopener">Stat Trek</a> — Statistică descriptivă & inferențială</li>
-        <li><a href="https://seeing-theory.brown.edu" target="_blank" rel="noopener">Seeing Theory</a> — Statistică vizuală, interactivă</li>
-        <li><a href="https://stats.stackexchange.com" target="_blank" rel="noopener">Cross Validated</a> — Q&A statistică avansată</li>
-      </ul>
-    </div>
-
-    <p class="res-note" data-i18n="res_footer">💡 Sugestie: Deschide link-urile în tab-uri noi pentru a păstra aplicația deschisă. Toate resursele sunt gratuite și accesibile public.</p>
-
-    <a href="index.html" class="back-link" data-i18n="res_back">← Înapoi la Aplicație</a>
+  <!-- Descriere -->
+  <div class="description" style="margin-bottom:20px;" data-i18n="res_intro">
+    Colecție de link-uri utile pentru pregătirea la examene, concursuri și aprofundarea matematicii.
   </div>
 
-  <!-- Simplu i18n inline pentru resources.html -->
-  <script>
-    const DICT = {
-      ro: {
-        res_title: "📚 Resurse Matematice", res_back: "← Înapoi la Aplicație",
-        res_intro: "Toate link-urile au fost verificate. Pentru aprofundarea subiectelor din aplicație.",
-        res_uni: "🎓 Universități & Cursuri Oficiale", res_ref: "📖 Referințe & Enciclopedii",
-        res_git: "💻 Proiecte Similare (GitHub)", res_vid: "🎥 Canale YouTube Excelente",
-        res_tools: "🧮 Calculatoare & Vizualizări", res_stats: "📊 Pentru Statistică",
-        res_footer: "💡 Sugestie: Deschide link-urile în tab-uri noi pentru a păstra aplicația deschisă. Toate resursele sunt gratuite și accesibile public."
-      },
-      en: {
-        res_title: "📚 Math Resources", res_back: "← Back to App",
-        res_intro: "All links verified. For deepening topics from this application.",
-        res_uni: "🎓 Universities & Official Courses", res_ref: "📖 References & Encyclopedias",
-        res_git: "💻 Similar Projects (GitHub)", res_vid: "🎥 Excellent YouTube Channels",
-        res_tools: "🧮 Calculators & Visualizations", res_stats: "📊 For Statistics",
-        res_footer: "💡 Tip: Open links in new tabs to keep the app open. All resources are free and public."
-      }
-    };
-    const lang = localStorage.getItem('app_lang') || 'ro';
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.dataset.i18n;
-      if (DICT[lang][key]) el.textContent = DICT[lang][key];
-    });
-    document.documentElement.lang = lang;
-  </script>
+  <!-- 🇷🇴 Examene Naționale -->
+  <div class="res-section">
+    <div class="res-section-title">🇷🇴 <span data-i18n="res_exam_ro">Examene Naționale (România)</span></div>
+    <div class="res-grid">
+      <div class="res-card">
+        <div class="res-title">🎓 Subiecte Edu.ro <span class="badge-new" data-i18n="badge_official">Oficial</span></div>
+        <div class="res-desc" data-i18n="res_edu_desc">Platforma oficială a Ministerului Educației cu subiecte și bareme pentru toate examenele naționale.</div>
+        <a href="https://subiecte.edu.ro/2026/" target="_blank" rel="noopener" class="res-link">🔗 subiecte.edu.ro/2026</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">📐 BAC MateInfo</div>
+        <div class="res-desc" data-i18n="res_bac_desc">Arhivă completă de subiecte BAC la Matematică, cu rezolvări detaliate și teorie.</div>
+        <a href="https://bacmateinfo.github.io/SubiecteMatematica/Matematica.html" target="_blank" rel="noopener" class="res-link">🔗 bacmateinfo.github.io</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">🧮 E3.ro — Evaluarea Națională</div>
+        <div class="res-desc" data-i18n="res_e3_desc">Resurse pentru clasa a VIII-a: teste, simulări și materiale pentru Evaluarea Națională.</div>
+        <a href="https://www.e3.ro/" target="_blank" rel="noopener" class="res-link">🔗 e3.ro</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">📖 Manualul.info</div>
+        <div class="res-desc" data-i18n="res_manual_desc">Manuale școlare digitale, fișe de lucru și resurse pentru toate clasele.</div>
+        <a href="https://manualul.info/" target="_blank" rel="noopener" class="res-link">🔗 manualul.info</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🏆 Concursuri & Olimpiade -->
+  <div class="res-section">
+    <div class="res-section-title">🏆 <span data-i18n="res_olimp">Concursuri & Olimpiade</span></div>
+    <div class="res-grid">
+      <div class="res-card">
+        <div class="res-title">🇷🇴 SSMR — Societatea de Științe Matematice</div>
+        <div class="res-desc" data-i18n="res_ssmr_desc">Organizatorul oficial al Olimpiadelor de Matematică din România. Subiecte, rezultate, regulamente.</div>
+        <a href="https://www.ssmr.ro/" target="_blank" rel="noopener" class="res-link">🔗 ssmr.ro</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">⚡ Pro-Matematica</div>
+        <div class="res-desc" data-i18n="res_promat_desc">Comunitate activă cu probleme de concurs, articole și pregătire pentru olimpiade.</div>
+        <a href="https://www.pro-matematica.ro/index.php" target="_blank" rel="noopener" class="res-link">🔗 pro-matematica.ro</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">🌐 Mate.info.ro</div>
+        <div class="res-desc" data-i18n="res_mateinfo_desc">Probleme, articole și resurse pentru pregătirea la concursuri școlare și universitare.</div>
+        <a href="https://mate.info.ro/" target="_blank" rel="noopener" class="res-link">🔗 mate.info.ro</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🌍 Internațional -->
+  <div class="res-section">
+    <div class="res-section-title">🌍 <span data-i18n="res_intl">Resurse Internaționale</span></div>
+    <div class="res-grid">
+      <div class="res-card">
+        <div class="res-title">🥇 IMO Official</div>
+        <div class="res-desc" data-i18n="res_imo_desc">Site-ul oficial al Olimpiadei Internaționale de Matematică: arhivă completă de probleme și rezultate din 1959.</div>
+        <a href="https://www.imo-official.org/" target="_blank" rel="noopener" class="res-link">🔗 imo-official.org</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">💬 Art of Problem Solving (Olympiad)</div>
+        <div class="res-desc" data-i18n="res_aops_desc">Comunitatea globală AoPS — forum dedicat olimpiadelor, cu discuții, soluții și mentorat.</div>
+        <a href="https://artofproblemsolving.com/community/c89" target="_blank" rel="noopener" class="res-link">🔗 artofproblemsolving.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🌐 Resurse Generale & Internaționale -->
+  <div class="res-section">
+    <div class="res-section-title">🌐 <span data-i18n="res_general">Resurse Generale & Internaționale</span></div>
+    <div class="res-grid">
+      <div class="res-card">
+        <div class="res-title">🎓 MIT OpenCourseWare</div>
+        <div class="res-desc" data-i18n="res_mit_desc">Cursuri complete de Calculus, Algebră, Teoria Numerelor de la MIT (EN).</div>
+        <a href="https://ocw.mit.edu" target="_blank" rel="noopener" class="res-link">🔗 ocw.mit.edu</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">📚 Khan Academy</div>
+        <div class="res-desc" data-i18n="res_khan_desc">Lecții video + exerciții pentru toate nivelurile, în RO și EN.</div>
+        <a href="https://www.khanacademy.org" target="_blank" rel="noopener" class="res-link">🔗 khanacademy.org</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">🌍 Wolfram MathWorld</div>
+        <div class="res-desc" data-i18n="res_mathworld_desc">Enciclopedie matematică riguroasă, toate domeniile.</div>
+        <a href="https://mathworld.wolfram.com" target="_blank" rel="noopener" class="res-link">🔗 mathworld.wolfram.com</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">🔢 OEIS</div>
+        <div class="res-desc" data-i18n="res_oeis_desc">Enciclopedia șirurilor numerice — factori, combinatorică, recurențe.</div>
+        <a href="https://oeis.org" target="_blank" rel="noopener" class="res-link">🔗 oeis.org</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">📈 Desmos Graphing</div>
+        <div class="res-desc" data-i18n="res_desmos_desc">Grafice interactive instant, perfect pentru vizualizare.</div>
+        <a href="https://www.desmos.com/calculator" target="_blank" rel="noopener" class="res-link">🔗 desmos.com</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">🧮 GeoGebra</div>
+        <div class="res-desc" data-i18n="res_geogebra_desc">Geometrie dinamică, algebră, calcul — gratuit și open-source.</div>
+        <a href="https://www.geogebra.org" target="_blank" rel="noopener" class="res-link">🔗 geogebra.org</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="margin-top:30px; padding-top:15px; border-top:1px solid var(--border); text-align:center; color:var(--text-muted); font-size:0.8rem;">
+    <span data-i18n="res_footer">Resurse actualizate periodic. Sugestii? Deschide un issue pe GitHub.</span>
+  </div>
+</div>
+
+<script>
+// 🌍 Limba (minimal, independent de main.js)
+const langData = {
+  ro: {
+    res_title: "📚 Resurse Matematice",
+    res_intro: "Colecție de link-uri utile pentru pregătirea la examene, concursuri și aprofundarea matematicii.",
+    res_exam_ro: "Examene Naționale (România)",
+    badge_official: "Oficial",
+    res_edu_desc: "Platforma oficială a Ministerului Educației cu subiecte și bareme pentru toate examenele naționale.",
+    res_bac_desc: "Arhivă completă de subiecte BAC la Matematică, cu rezolvări detaliate și teorie.",
+    res_e3_desc: "Resurse pentru clasa a VIII-a: teste, simulări și materiale pentru Evaluarea Națională.",
+    res_manual_desc: "Manuale școlare digitale, fișe de lucru și resurse pentru toate clasele.",
+    res_olimp: "Concursuri & Olimpiade",
+    res_ssmr_desc: "Organizatorul oficial al Olimpiadelor de Matematică din România. Subiecte, rezultate, regulamente.",
+    res_promat_desc: "Comunitate activă cu probleme de concurs, articole și pregătire pentru olimpiade.",
+    res_mateinfo_desc: "Probleme, articole și resurse pentru pregătirea la concursuri școlare și universitare.",
+    res_intl: "Resurse Internaționale",
+    res_imo_desc: "Site-ul oficial al Olimpiadei Internaționale de Matematică: arhivă completă de probleme și rezultate din 1959.",
+    res_aops_desc: "Comunitatea globală AoPS — forum dedicat olimpiadelor, cu discuții, soluții și mentorat.",
+    res_general: "Resurse Generale & Internaționale",
+    res_mit_desc: "Cursuri complete de Calculus, Algebră, Teoria Numerelor de la MIT (EN).",
+    res_khan_desc: "Lecții video + exerciții pentru toate nivelurile, în RO și EN.",
+    res_mathworld_desc: "Enciclopedie matematică riguroasă, toate domeniile.",
+    res_oeis_desc: "Enciclopedia șirurilor numerice — factori, combinatorică, recurențe.",
+    res_desmos_desc: "Grafice interactive instant, perfect pentru vizualizare.",
+    res_geogebra_desc: "Geometrie dinamică, algebră, calcul — gratuit și open-source.",
+    res_footer: "Resurse actualizate periodic. Sugestii? Deschide un issue pe GitHub.",
+    res_back: "↩️ Înapoi la Math Suite"
+  },
+  en: {
+    res_title: "📚 Math Resources",
+    res_intro: "Curated links for exam preparation, contests, and deepening your mathematical knowledge.",
+    res_exam_ro: "National Exams (Romania)",
+    badge_official: "Official",
+    res_edu_desc: "Official Ministry of Education platform with exam papers and grading schemes for all national exams.",
+    res_bac_desc: "Complete archive of BAC Math papers, with detailed solutions and theory.",
+    res_e3_desc: "Resources for 8th grade: tests, simulations, and materials for the National Evaluation.",
+    res_manual_desc: "Digital school textbooks, worksheets, and resources for all grade levels.",
+    res_olimp: "Contests & Olympiads",
+    res_ssmr_desc: "Official organizer of the Romanian Mathematics Olympiad. Papers, results, regulations.",
+    res_promat_desc: "Active community with contest problems, articles, and olympiad preparation.",
+    res_mateinfo_desc: "Problems, articles, and resources for school and university-level contests.",
+    res_intl: "International Resources",
+    res_imo_desc: "Official site of the International Mathematical Olympiad: complete archive of problems and results since 1959.",
+    res_aops_desc: "Global AoPS community — forum dedicated to olympiads, with discussions, solutions, and mentorship.",
+    res_general: "General & International Resources",
+    res_mit_desc: "Complete courses in Calculus, Algebra, Number Theory from MIT (EN).",
+    res_khan_desc: "Video lessons + exercises for all levels, in RO and EN.",
+    res_mathworld_desc: "Rigorous mathematical encyclopedia, all domains.",
+    res_oeis_desc: "Encyclopedia of integer sequences — factors, combinatorics, recurrences.",
+    res_desmos_desc: "Instant interactive graphs, perfect for visualization.",
+    res_geogebra_desc: "Dynamic geometry, algebra, calculus — free and open-source.",
+    res_footer: "Resources updated periodically. Suggestions? Open an issue on GitHub.",
+    res_back: "↩️ Back to Math Suite"
+  }
+};
+
+let currentLang = localStorage.getItem('app_lang') || 'ro';
+function applyResLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (langData[lang]?.[key]) el.textContent = langData[lang][key];
+  });
+  document.querySelectorAll('.lang-link').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+document.querySelectorAll('.lang-link').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    currentLang = btn.dataset.lang;
+    localStorage.setItem('app_lang', currentLang);
+    applyResLang(currentLang);
+  });
+});
+applyResLang(currentLang);
+
+// 🌓 Temă (sincronizează cu restul aplicației)
+const savedTheme = localStorage.getItem('app_theme');
+if (savedTheme && savedTheme !== 'default') {
+  document.documentElement.setAttribute('data-theme', savedTheme);
+}
+</script>
 </body>
 </html>
