@@ -3,9 +3,11 @@
 > O aplicație web matematică modulară, interactivă și rapidă, construită cu JavaScript vanilla, CSS și MathJax. Fără framework-uri, fără build steps. Doar matematică, clară și accesibilă.
 
 🔗 **Live Demo:** [exceliorxtreme.github.io/math-hub](https://exceliorxtreme.github.io/math-hub/)
-
+[![Google Translate Friendly](https://img.shields.io/badge/Translate-Google%20Translate%20✅-4285F4?style=flat-square)](https://translate.google.com)
 ## ✨ Funcționalități
 - 🌐 **Suport Bilingv:** Comutare instantă RO ↔ EN printr-un sistem `i18n` custom.
+- Proiectul este construit cu HTML semantic și structură curată, ceea ce îl face perfect compatibil cu Google Translate (click dreapta → „Translate to...").
+Deși aplicația include deja suport nativ RO ↔ EN, această compatibilitate permite utilizatorilor să traducă rapid conținutul în peste 100 de limbi, direct din browser, fără configurări suplimentare.
 - 🌓 **3 Teme Integrate:** `Default` (Terminal Green), `Carbon` (Dark Modern), `Sepia` (Luminos/Eye-friendly). Preferința se salvează în `localStorage`.
 - 📱 **100% Responsive:** Taburi adaptive, input-uri optimizate pentru touch, layout care se comportă natural pe mobil/tabletă/desktop.
 - 🧩 **Arhitectură Modulară:** Încărcare dinamică via `import()`. Se rulează doar ce este necesar. Zero overhead.
