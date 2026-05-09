@@ -29,7 +29,8 @@ math-hub/
 ├── style.css               # Stiluri globale, variabile, responsive breakpoints
 ├── utils/
 │   └── i18n.js             # Dicționar traduceri + funcția applyLang()
-├── modules/                # Module funcționale (încărcate la cerere)
+├── modules/ Module funcționale (încărcate la cerere)
+|   ├── algebra/
 │   ├── aritmetica/
 │   ├── modulara/
 │   ├── trig/
