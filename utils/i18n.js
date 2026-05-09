@@ -219,6 +219,9 @@ export const DICT = {
         prob_label_pb: "P(B)",
         prob_label_panb: "P(A | ¬B)",
         prob_label_pnb: "P(¬B)",
+        int_subst_note: "cu \\(u = g(x)\\)",
+        int_parts_note: "Alege \\(u\\) care se simplifică la derivare",
+        int_frac_note: "Descompunere în fracții simple",
 
 
 
@@ -444,6 +447,9 @@ export const DICT = {
         prob_label_pb: "P(B)",
         prob_label_panb: "P(A | ¬B)",
         prob_label_pnb: "P(¬B)",
+        nt_subst_note: "with \\(u = g(x)\\)",
+        int_parts_note: "Choose \\(u\\) that simplifies upon differentiation",
+        int_frac_note: "Partial fraction decomposition",
     }
 };
 
