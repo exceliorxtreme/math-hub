@@ -1,19 +1,21 @@
 // main.js
-import { applyLang, initLangSwitcher } from './utils/i18n.js';
+import { applyLang } from './utils/i18n.js';
 
 const cache = new Map();
 const workspace = document.getElementById('workspace');
 const subNav = document.getElementById('sub-nav');
 const resultBox = document.getElementById('result');
+
+// 🔒 LIMBA BLOCATĂ: Se citește O SINGURĂ DATĂ. Nu se mai resetează niciodată automat.
 let currentLang = localStorage.getItem('app_lang') || 'ro';
 
-function showSubTabs(category, autoLoad = true) {
+function showSubTabs(category) {
   document.querySelectorAll('.s-tab').forEach(btn => {
     btn.classList.remove('active');
     btn.classList.toggle('visible', btn.dataset.cat === category);
   });
   const firstVisible = subNav?.querySelector('.s-tab.visible');
-  if (firstVisible && autoLoad) { // ⭐ Încarcă doar dacă autoLoad e true
+  if (firstVisible) {
     firstVisible.classList.add('active');
     if (firstVisible.dataset.path) loadModule(firstVisible.dataset.path);
   }
@@ -39,31 +41,48 @@ export async function loadModule(path) {
   if (resultBox) { resultBox.style.display = 'none'; resultBox.innerHTML = ''; }
   if (cache.has(path)) {
     cache.get(path).initUI?.();
-    applyLang(currentLang);
+    applyLang(currentLang); // ✅ Aplică DOAR limba blocată
     if (window.MathJax?.typesetPromise) requestAnimationFrame(() => MathJax.typesetPromise().catch(()=>{}));
     return;
   }
-
   if (workspace) workspace.innerHTML = `<div class="loader">⏳ Loading...</div>`;
   try {
     const mod = await import(`./modules/${path}.js`);
     cache.set(path, mod);
     if (workspace) workspace.innerHTML = '';
     mod.initUI?.();
-    applyLang(currentLang);
+    applyLang(currentLang); // ✅ Zero fallback-uri, zero citiri din localStorage aici
     if (window.MathJax?.typesetPromise) requestAnimationFrame(() => MathJax.typesetPromise().catch(()=>{}));
   } catch (err) {
     console.error(`❌ Eroare încărcare ${path}:`, err);
-    if (workspace) workspace.innerHTML = `<div style="text-align:center;color:#ff5555;padding:20px;border:1px dashed #ff5555;border-radius:6px">⚠️ Modul nu a fost găsit.<br><small>Verifică consola (F12).</small></div>`;
+    if (workspace) workspace.innerHTML = `<div style="text-align:center;color:#ff5555;padding:20px;border:1px dashed #ff5555;border-radius:6px">⚠️ Modulul nu a fost găsit.<br><small>Verifică consola (F12).</small></div>`;
   }
 }
 
-// 🌍 1. LIMBA (SE ÎNCARCĂ ÎNTOTDEAUNA PRIMUL)
-initLangSwitcher();
-currentLang = localStorage.getItem('app_lang') || 'ro';
+// 🌍 1. COMUTARE LIMBĂ STRICTĂ (doar la click explicit)
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('app_lang', lang);
+  applyLang(lang);
+  document.querySelectorAll('.lang-link').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+document.querySelectorAll('.lang-link').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    setLanguage(btn.dataset.lang);
+  });
+});
+
+// Inițializare stare vizuală la load
+document.querySelectorAll('.lang-link').forEach(btn => {
+  btn.classList.toggle('active', btn.dataset.lang === currentLang);
+});
 applyLang(currentLang);
 
-// 🌓 Theme Logic (asigură-te că selectorul e corect)
+// 🌓 2. TEME
 const themeBtn = document.getElementById('theme-toggle');
 if (themeBtn) {
   const themes = ['default', 'carbon', 'sepia'];
@@ -71,7 +90,7 @@ if (themeBtn) {
   if (saved !== 'default') document.documentElement.setAttribute('data-theme', saved);
 
   themeBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // ⛔ Previne comportamentul de tab
+    e.preventDefault();
     const current = document.documentElement.getAttribute('data-theme') || 'default';
     const next = themes[(themes.indexOf(current) + 1) % themes.length];
     if (next === 'default') document.documentElement.removeAttribute('data-theme');
@@ -82,4 +101,4 @@ if (themeBtn) {
 
 // 🚀 3. PRIMUL MODUL
 const initialCat = document.querySelector('.m-tab.active')?.dataset.cat || 'aritmetica';
-showSubTabs(initialCat, false);
+showSubTabs(initialCat);
