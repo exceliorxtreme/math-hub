@@ -57,15 +57,15 @@ export function initUI() {
     <div class="fcards">
     <div class="fcard"><div class="fhead" data-i18n="int_subst">${t('int_subst')}</div><div class="fbody">
     <div class="fline">\\(\\int f(g(x))g'(x)dx = \\int f(u)du\\)</div>
-    <div class="fline" style="color:var(--text-muted);font-size:0.85rem">cu \\(u = g(x)\\)</div>
+    <div class="fline" style="color:var(--text-muted);font-size:0.85rem" data-i18n="int_subst_note">${t('int_subst_note')}</div>
     </div></div>
     <div class="fcard"><div class="fhead" data-i18n="int_parts">${t('int_parts')}</div><div class="fbody">
     <div class="fline">\\(\\int u\\,dv = uv - \\int v\\,du\\)</div>
-    <div class="fline" style="color:var(--text-muted);font-size:0.85rem">Alege \\(u\\) care se simplifică la derivare</div>
+    <div class="fline" style="color:var(--text-muted);font-size:0.85rem" data-i18n="int_parts_note">${t('int_parts_note')}</div>
     </div></div>
     <div class="fcard"><div class="fhead" data-i18n="int_frac">${t('int_frac')}</div><div class="fbody">
     <div class="fline">\\(\\frac{P(x)}{Q(x)} = \\sum \\frac{A_k}{(x-r_k)^{m_k}} + \\sum \\frac{B_jx+C_j}{(x^2+p_jx+q_j)^{n_j}}\\)</div>
-    <div class="fline" style="color:var(--text-muted);font-size:0.85rem">Descompunere în fracții simple</div>
+    <div class="fline" style="color:var(--text-muted);font-size:0.85rem" data-i18n="int_frac_note">${t('int_frac_note')}</div>
     </div></div>
     </div>
 
