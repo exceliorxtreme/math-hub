@@ -107,7 +107,7 @@ export function initUI() {
             power *= p;
         }
 
-        const formula = `\\(E_${p}(${n}!) = \\sum_{k=1}^{\\infty} \\left\\lfloor \\frac{${n}}{${p}^k} \\right\\rfloor = \\textcolor{var(--accent)}{${exp}}\\)`;
+        const formula = `\\(E_${p}(${n}!) = \\sum_{k=1}^{\\infty} \\left\\lfloor \\frac{${n}}{${p}^k} \\right\\rfloor = {\\color{#3498db}${exp}}\\)`;
         const stepsLatex = steps.join(' + ') + ' + \\cdots = ' + exp;
 
         out.innerHTML = `
