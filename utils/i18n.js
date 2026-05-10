@@ -305,7 +305,7 @@ export const DICT = {
         diof_zeller_title: "Calendar Gregorian",
         diof_err_date: "Data introdusă este invalidă.",
         diof_note_zeller: "Algoritm valid pentru calendarul gregorian (după 1582).",
-        ell_title: "📐 Ecuația Pell",
+        pell_title: "📐 Ecuația Pell",
         pell_title: "📐 Ecuația Pell",
         pell_desc: "Soluții pentru x² − Dy² = ±1, fundamentale și generale, cu verificare instant.",
         pell_sec_form: "1️⃣ Formă & Condiții",
