@@ -35,6 +35,15 @@ export function initUI() {
     const ws = document.getElementById('workspace');
     const resBox = document.getElementById('result');
 
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     ws.innerHTML = `
     <h2 data-i18n="base_title">${t('base_title')}</h2>
     <div class="description" data-i18n="base_desc">${t('base_desc')}</div>
@@ -73,15 +82,20 @@ export function initUI() {
             const fromBase = parseInt(document.getElementById('base-from').value);
             const toBase = parseInt(document.getElementById('base-to').value);
             const res = convertBase(raw, fromBase, toBase);
+            const safeRaw = escapeHtml(res.raw);
+            const safeFromBase = escapeHtml(res.fromBase);
+            const safeRes = escapeHtml(res.res);
+            const safeToBase = escapeHtml(res.toBase);
             show(`
             <div style="text-align:center;line-height:1.8;font-size:0.95rem;padding:5px 0;">
-            ${t('base_res_from')} \\( ${res.raw} \\) ${t('base_res_in')} \\( ${res.fromBase} \\) ${t('base_res_becomes')}<br>
-            <span style="font-size:1.4em;color:var(--accent);word-break:break-all;">\\( ${res.res} \\)</span>
-            <br><small style="color:var(--text-muted)">${t('base_res_in')} \\( ${res.toBase} \\)</small>
+            ${t('base_res_from')} \\( ${safeRaw} \\) ${t('base_res_in')} \\( ${safeFromBase} \\) ${t('base_res_becomes')}<br>
+            <span style="font-size:1.4em;color:var(--accent);word-break:break-all;">\\( ${safeRes} \\)</span>
+            <br><small style="color:var(--text-muted)">${t('base_res_in')} \\( ${safeToBase} \\)</small>
             </div>
             `);
         } catch (e) {
-            show(`❌ ${e.message}`, true);
+            const safeMessage = escapeHtml(e?.message ?? '');
+            show(`❌ ${safeMessage}`, true);
         }
     });
 
