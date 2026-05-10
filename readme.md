@@ -39,3 +39,4 @@ math-hub/
 │   ├── statistica/
 │   └── probabilitati/
 └── README.md
+## coding with https://qwen.ai/home
