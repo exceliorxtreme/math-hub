@@ -50,12 +50,12 @@ export function initUI() {
     </div>
     `;
 
-    function show(html, err = false, asText = false) {
+    function show(content, err = false, allowHtml = false) {
         resBox.style.display = 'block';
-        if (asText) {
-            resBox.textContent = html;
+        if (allowHtml) {
+            resBox.innerHTML = content;
         } else {
-            resBox.innerHTML = html;
+            resBox.textContent = content;
         }
         resBox.style.borderLeftColor = err ? '#ff5555' : 'var(--accent)';
         requestAnimationFrame(() => {
@@ -72,8 +72,8 @@ export function initUI() {
             if (a > 100000000000000n) throw new Error(t('fact_err_max') || "Maxim 10¹⁴");
             const factors = factorize(Number(a));
             const latex = factors.map(f => f.count === 1 ? `${f.p}` : `${f.p}^{${f.count}}`).join(' \\times ');
-            show(`\\(${a} = ${latex}\\)`);
-        } catch (e) { show(`❌ ${e.message}`, true, true); }
+            show(`\\(${a} = ${latex}\\)`, false, true);
+        } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
     document.getElementById('btn-gcd').addEventListener('click', () => {
@@ -82,8 +82,8 @@ export function initUI() {
             const b = getVal('fact-b');
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 1");
             const rez = gcd(a, b);
-            show(`\\(CMMDC(${a}, ${b}) = ${rez}\\)`);
-        } catch (e) { show(`❌ ${e.message}`, true, true); }
+            show(`\\(CMMDC(${a}, ${b}) = ${rez}\\)`, false, true);
+        } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
     document.getElementById('btn-lcm').addEventListener('click', () => {
@@ -92,8 +92,8 @@ export function initUI() {
             const b = getVal('fact-b');
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 1");
             const rez = lcm(a, b);
-            show(`\\(CMMMC(${a}, ${b}) = ${rez}\\)`);
-        } catch (e) { show(`❌ ${e.message}`, true, true); }
+            show(`\\(CMMMC(${a}, ${b}) = ${rez}\\)`, false, true);
+        } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
     if (window.MathJax?.typesetPromise) requestAnimationFrame(() => MathJax.typesetPromise([ws]));
