@@ -61,7 +61,7 @@ export function initUI() {
     </div>
 
     <!-- ✅ CASETA DE REZULTAT (poziționată CORECT: după butoane, înainte de Legendre) -->
-    <div id="comb-result" class="result-box" style="display:none; margin:12px 0 20px 0; padding:12px; background:var(--input-bg); border-left:4px solid var(--accent); border-radius:6px;" aria-live="polite"></div>
+    <div id="comb-result" class="result-box" style="display:none; margin:12px 0 20px 0; padding:12px; background:var(--input-bg); border-left:4px solid var(--accent); border-radius:6px;" aria-live="polite" aria-atomic="true"></div>
 
     <!-- 🔢 Legendre Section -->
     <div class="fsec" style="background:linear-gradient(90deg,#2980b9,#3498db); margin-top:15px;" data-i18n="leg_title">
@@ -107,7 +107,7 @@ export function initUI() {
             power *= p;
         }
 
-        const formula = `\\(E_${p}(${n}!) = \\sum_{k=1}^{\\infty} \\left\\lfloor \\frac{${n}}{${p}^k} \\right\\rfloor = {\\color{#3498db}${exp}}\\)`;
+        const formula = `\\(E_{${p}}(${n}!) = \\sum_{k=1}^{\\infty} \\left\\lfloor \\frac{${n}}{${p}^k} \\right\\rfloor = \\) <span style="font-size:1.4em;color:var(--accent)">${exp}</span>`;
         const stepsLatex = steps.join(' + ') + ' + \\cdots = ' + exp;
 
         out.innerHTML = `
