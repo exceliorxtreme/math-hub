@@ -100,7 +100,7 @@ export function initUI() {
     <div class="fbody">
     <div class="fline">\\(n=3: \\frac{a_1b_1 + a_2b_2 + a_3b_3}{3} \\ge \\frac{a_1+a_2+a_3}{3} \\cdot \\frac{b_1+b_2+b_3}{3}\\)</div>
     <div class="fline">\\(n=4: \\frac{a_1b_1 + a_2b_2 + a_3b_3 + a_4b_4}{4} \\ge \\frac{a_1+a_2+a_3+a_4}{4} \\cdot \\frac{b_1+b_2+b_3+b_4}{4}\\)</div>
-    <div class="fline">\\(\\text{Monotone same / Aceeași monotonie: } \\frac{1}{n}\\sum_{i=1}^n a_i b_i \\ge (\\frac{1}{n}\\sum_{i=1}^n a_i)(\\frac{1}{n}\\sum_{i=1}^n b_i)\\)</div>
+    <div class="fline">\\(\\text{Monot. same/Aceeași monoton.: } \\frac{1}{n}\\sum_{i=1}^n a_i b_i \\ge (\\frac{1}{n}\\sum_{i=1}^n a_i)(\\frac{1}{n}\\sum_{i=1}^n b_i)\\)</div>
     <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_eq')} \\(a_i\\) sau \\(b_i\\) constante. ${t('lbl_cond')} ambele secvențe monotone în același sens.</div>
     </div>
     </div>
