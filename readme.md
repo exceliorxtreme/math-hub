@@ -35,6 +35,7 @@
 ## 📁 Structura Proiectului
 
 
+```text
 math-hub/
 ├── index.html              # Structura UI, taburi, container module
 ├── main.js                 # Logică centrală: routing, loader, init teme/limbă
