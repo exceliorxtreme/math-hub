@@ -49,8 +49,8 @@ export function initUI() {
     <div class="fcard">
     <div class="fhead" data-i18n="pell_basic_title">${t('pell_basic_title')}</div>
     <div class="fbody">
-    <div class="fline">\\(x^2 - D y^2 = 1 \\quad (\\text{clasica})\\)</div>
-    <div class="fline">\\(x^2 - D y^2 = -1 \\quad (\\text{există doar pt. anumite } D)\\)</div>
+    <div class="fline">\\(x^2 - D y^2 = 1 \\)</div>
+    <div class="fline">\\(x^2 - D y^2 = -1 \\)</div>
     <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('pell_basic_cond')}</div>
     </div>
     </div>
