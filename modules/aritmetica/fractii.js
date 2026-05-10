@@ -33,8 +33,11 @@ export function initUI() {
     </div>
     `;
 
-    function show(html, err=false){
-        resBox.style.display='block'; resBox.innerHTML=html; resBox.style.borderLeftColor=err?'#ff5555':'var(--accent)';
+    function show(content, err=false, asHtml=false){
+        resBox.style.display='block';
+        if(asHtml) resBox.innerHTML=content;
+        else resBox.textContent=content;
+        resBox.style.borderLeftColor=err?'#ff5555':'var(--accent)';
         requestAnimationFrame(()=>{ if(window.MathJax?.typesetPromise) MathJax.typesetPromise([resBox]).catch(()=>{}); });
     }
 
@@ -47,7 +50,7 @@ export function initUI() {
             if(op==='add'){rn=n1*d2+n2*d1; rd=d1*d2} else if(op==='sub'){rn=n1*d2-n2*d1; rd=d1*d2}
             else if(op==='mul'){rn=n1*n2; rd=d1*d2} else { if(!n2) throw new Error("Împărțire la zero!"); rn=n1*d2; rd=d1*n2 }
             const s=simp(rn,rd); const sym={add:'+',sub:'−',mul:'\\times',div:'\\div'}[op];
-            show(`\\(\\left(\\frac{${n1}}{${d1}}\\right) ${sym} \\left(\\frac{${n2}}{${d2}}\\right) = ${s.d===1n?`${s.n}`:`\\frac{${s.n}}{${s.d}}`}\\)`);
+            show(`\\(\\left(\\frac{${n1}}{${d1}}\\right) ${sym} \\left(\\frac{${n2}}{${d2}}\\right) = ${s.d===1n?`${s.n}`:`\\frac{${s.n}}{${s.d}}`}\\)`, false, true);
         } catch(e){ show("❌ "+e.message, true); }
     };
     document.getElementById('btn-add').onclick=()=>run('add'); document.getElementById('btn-sub').onclick=()=>run('sub');
