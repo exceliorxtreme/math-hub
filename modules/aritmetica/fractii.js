@@ -35,8 +35,7 @@ export function initUI() {
 
     function show(content, err=false, asHtml=false){
         resBox.style.display='block';
-        if(asHtml) resBox.innerHTML=content;
-        else resBox.textContent=content;
+        resBox.textContent=content;
         resBox.style.borderLeftColor=err?'#ff5555':'var(--accent)';
         requestAnimationFrame(()=>{ if(window.MathJax?.typesetPromise) MathJax.typesetPromise([resBox]).catch(()=>{}); });
     }
