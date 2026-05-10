@@ -50,9 +50,13 @@ export function initUI() {
     </div>
     `;
 
-    function show(html, err = false) {
+    function show(html, err = false, asText = false) {
         resBox.style.display = 'block';
-        resBox.innerHTML = html;
+        if (asText) {
+            resBox.textContent = html;
+        } else {
+            resBox.innerHTML = html;
+        }
         resBox.style.borderLeftColor = err ? '#ff5555' : 'var(--accent)';
         requestAnimationFrame(() => {
             if (window.MathJax?.typesetPromise) MathJax.typesetPromise([resBox]).catch(() => {});
@@ -69,7 +73,7 @@ export function initUI() {
             const factors = factorize(Number(a));
             const latex = factors.map(f => f.count === 1 ? `${f.p}` : `${f.p}^{${f.count}}`).join(' \\times ');
             show(`\\(${a} = ${latex}\\)`);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+        } catch (e) { show(`❌ ${e.message}`, true, true); }
     });
 
     document.getElementById('btn-gcd').addEventListener('click', () => {
@@ -79,7 +83,7 @@ export function initUI() {
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 1");
             const rez = gcd(a, b);
             show(`\\(CMMDC(${a}, ${b}) = ${rez}\\)`);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+        } catch (e) { show(`❌ ${e.message}`, true, true); }
     });
 
     document.getElementById('btn-lcm').addEventListener('click', () => {
@@ -89,7 +93,7 @@ export function initUI() {
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 1");
             const rez = lcm(a, b);
             show(`\\(CMMMC(${a}, ${b}) = ${rez}\\)`);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+        } catch (e) { show(`❌ ${e.message}`, true, true); }
     });
 
     if (window.MathJax?.typesetPromise) requestAnimationFrame(() => MathJax.typesetPromise([ws]));
