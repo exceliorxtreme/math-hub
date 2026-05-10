@@ -123,10 +123,14 @@ export function initUI() {
     calcLegendre();
 
     // 📦 Funcție helper pentru afișarea rezultatelor C/A/Pₙ
-    function show(html, err = false) {
+    function show(content, err = false, allowHtml = false) {
         if (!resBox) return; // ✅ Guard clause
         resBox.style.display = 'block';
-        resBox.innerHTML = html;
+        if (allowHtml) {
+            resBox.innerHTML = content;
+        } else {
+            resBox.textContent = content;
+        }
         resBox.style.borderLeftColor = err ? '#ff5555' : 'var(--accent)';
         if (window.MathJax?.typesetPromise) MathJax.typesetPromise([resBox]).catch(() => {});
     }
@@ -138,7 +142,7 @@ export function initUI() {
             const k = BigInt(document.getElementById('c-k').value);
             if (n < 0n || k < 0n || k > n) throw new Error(t('comb_err_range'));
             const rez = bigC(n, k);
-            show(`\\(C(${n}, ${k}) = \\frac{${n}!}{${k}!(${n}-${k})!} = \\) <span style="font-size:1.4em;color:var(--accent)">${rez}</span>`);
+            show(`\\(C(${n}, ${k}) = \\frac{${n}!}{${k}!(${n}-${k})!} = \\) <span style="font-size:1.4em;color:var(--accent)">${rez}</span>`, false, true);
         } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
@@ -149,7 +153,7 @@ export function initUI() {
             const k = BigInt(document.getElementById('c-k').value);
             if (n < 0n || k < 0n || k > n) throw new Error(t('comb_err_range'));
             const rez = bigA(n, k);
-            show(`\\(A(${n}, ${k}) = \\frac{${n}!}{(${n}-${k})!} = \\) <span style="font-size:1.4em;color:var(--accent)">${rez}</span>`);
+            show(`\\(A(${n}, ${k}) = \\frac{${n}!}{(${n}-${k})!} = \\) <span style="font-size:1.4em;color:var(--accent)">${rez}</span>`, false, true);
         } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
@@ -163,7 +167,7 @@ export function initUI() {
             const stirling = n >= 1n
             ? `<br><small style="color:var(--text-muted)">📐 ${t('comb_stirling_note')} ~10^${digits} (${digits} ${t('comb_stirling_digits')})</small>`
             : '';
-            show(`\\(P_{${n}} = ${n}! = \\) <span style="font-size:1.3em;color:var(--accent)">${rez}</span>${stirling}`);
+            show(`\\(P_{${n}} = ${n}! = \\) <span style="font-size:1.3em;color:var(--accent)">${rez}</span>${stirling}`, false, true);
         } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
