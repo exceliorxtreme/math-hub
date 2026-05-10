@@ -64,5 +64,5 @@ cd math-hub
 # Opțiunea B: Rulează un server local
 python3 -m http.server 8000  # apoi accesează http://localhost:8000
 ✨ Construit pentru rapiditate, precizie și claritate matematică.
-#Optimizat pentru studenți, profesori și pasionați.
+# Optimizat pentru studenți, profesori și pasionați.
 
