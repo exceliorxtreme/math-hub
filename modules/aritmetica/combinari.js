@@ -123,6 +123,15 @@ export function initUI() {
     calcLegendre();
 
     // 📦 Funcție helper pentru afișarea rezultatelor C/A/Pₙ
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     function show(content, err = false, allowHtml = false) {
         if (!resBox) return; // ✅ Guard clause
         resBox.style.display = 'block';
@@ -143,7 +152,7 @@ export function initUI() {
             if (n < 0n || k < 0n || k > n) throw new Error(t('comb_err_range'));
             const rez = bigC(n, k);
             show(`\\(C(${n}, ${k}) = \\frac{${n}!}{${k}!(${n}-${k})!} = \\) <span style="font-size:1.4em;color:var(--accent)">${rez}</span>`, false, true);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+        } catch (e) { show(`❌ ${escapeHtml(e?.message ?? String(e))}`, true); }
     });
 
     // 🔹 Aranjamente A(n,k)
@@ -154,7 +163,7 @@ export function initUI() {
             if (n < 0n || k < 0n || k > n) throw new Error(t('comb_err_range'));
             const rez = bigA(n, k);
             show(`\\(A(${n}, ${k}) = \\frac{${n}!}{(${n}-${k})!} = \\) <span style="font-size:1.4em;color:var(--accent)">${rez}</span>`, false, true);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+        } catch (e) { show(`❌ ${escapeHtml(e?.message ?? String(e))}`, true); }
     });
 
     // 🔹 Permutări Pₙ = n! + Stirling
@@ -168,7 +177,7 @@ export function initUI() {
             ? `<br><small style="color:var(--text-muted)">📐 ${t('comb_stirling_note')} ~10^${digits} (${digits} ${t('comb_stirling_digits')})</small>`
             : '';
             show(`\\(P_{${n}} = ${n}! = \\) <span style="font-size:1.3em;color:var(--accent)">${rez}</span>${stirling}`, false, true);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+        } catch (e) { show(`❌ ${escapeHtml(e?.message ?? String(e))}`, true); }
     });
 
     // 🎯 MathJax initial render
