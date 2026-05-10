@@ -41,7 +41,12 @@ export function initUI() {
     `;
 
     function show(html, err = false) {
-        resBox.style.display = 'block'; resBox.innerHTML = html;
+        resBox.style.display = 'block';
+        if (err) {
+            resBox.textContent = html;
+        } else {
+            resBox.innerHTML = html;
+        }
         resBox.style.borderLeftColor = err ? '#ff5555' : 'var(--accent)';
         requestAnimationFrame(() => { if (window.MathJax?.typesetPromise) MathJax.typesetPromise([resBox]).catch(() => {}); });
     }
