@@ -63,5 +63,6 @@ cd math-hub
 # Opțiunea A: Deschide index.html direct în browser
 # Opțiunea B: Rulează un server local
 python3 -m http.server 8000  # apoi accesează http://localhost:8000
-✨ Construit pentru rapiditate, precizie și claritate matematică. Optimizat pentru studenți, profesori și pasionați.
+✨ Construit pentru rapiditate, precizie și claritate matematică.
+#Optimizat pentru studenți, profesori și pasionați.
 
