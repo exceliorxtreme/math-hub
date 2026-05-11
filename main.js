@@ -21,9 +21,9 @@ function showSubTabs(category) {
   }
 }
 
-document.querySelectorAll('.m-tab').forEach(tab => {
+document.querySelectorAll('.m-tab[data-cat]').forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.m-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.m-tab[data-cat]').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     showSubTabs(tab.dataset.cat);
   });
@@ -100,5 +100,5 @@ if (themeBtn) {
 }
 
 // 🚀 3. PRIMUL MODUL
-const initialCat = document.querySelector('.m-tab.active')?.dataset.cat || 'aritmetica';
+const initialCat = document.querySelector('.m-tab[data-cat].active')?.dataset.cat || 'aritmetica';
 showSubTabs(initialCat);

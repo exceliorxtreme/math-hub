@@ -41,13 +41,31 @@ export function initUI() {
     <div class="fcard"><div class="fhead" data-i18n="tf_sum_plus">${t('tf_sum_plus')}</div><div class="fbody">
     <div class="fline">\\(\\sin(\\alpha+\\beta) = \\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta\\)</div>
     <div class="fline">\\(\\cos(\\alpha+\\beta) = \\cos\\alpha\\cos\\beta - \\sin\\alpha\\sin\\beta\\)</div>
-    <div class="fline">\\(\\tan(\\alpha+\\beta) = \\frac{\\tan\\alpha + \\tan\\beta}{1 - \\tan\\alpha\\tan\\beta}\\)</div>
     </div></div>
     <div class="fcard"><div class="fhead" data-i18n="tf_sum_minus">${t('tf_sum_minus')}</div><div class="fbody">
     <div class="fline">\\(\\sin(\\alpha-\\beta) = \\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta\\)</div>
     <div class="fline">\\(\\cos(\\alpha-\\beta) = \\cos\\alpha\\cos\\beta + \\sin\\alpha\\sin\\beta\\)</div>
+    </div></div>
+
+    <div class="fcard"><div class="fhead" data-i18n="tf_tan_arctan">${t('tf_tan_arctan')}</div><div class="fbody">
+    <div class="fline">\\(\\tan(\\alpha+\\beta) = \\frac{\\tan\\alpha + \\tan\\beta}{1 - \\tan\\alpha\\tan\\beta}\\)</div>
     <div class="fline">\\(\\tan(\\alpha-\\beta) = \\frac{\\tan\\alpha - \\tan\\beta}{1 + \\tan\\alpha\\tan\\beta}\\)</div>
     <div class="fline">\\(\\cot(\\alpha \\pm \\beta) = \\frac{\\cot \\alpha \\cot \\beta \\mp 1}{\\cot \\beta \\pm \\cot \\alpha}\\)</div>
+    <div class="fline">\\(\\tan 2\\alpha = \\frac{2\\tan\\alpha}{1 - \\tan^2\\alpha}\\)</div>
+    <div class="fline">\\(\\cot 2x = \\frac{\\cot^2 x - 1}{2\\cot x}\\)</div>
+    <div class="fline">\\(\\tan 3\\alpha = \\frac{3\\tan\\alpha - \\tan^3\\alpha}{1 - 3\\tan^2\\alpha}\\)</div>
+    <div class="fline">\\(\\cot 3x = \\frac{\\cot^3 x - 3\\cot x}{3\\cot^2 x - 1}\\)</div>
+    <div class="fline">\\(\\tan\\frac{\\alpha}{2} = \\frac{\\sin\\alpha}{1+\\cos\\alpha} = \\frac{1-\\cos\\alpha}{\\sin\\alpha}\\)</div>
+    <div class="fline">\\(\\tan^2\\alpha = \\frac{1 - \\cos 2\\alpha}{1 + \\cos 2\\alpha}\\)</div>
+    <div class="fline">\\(\\tan(\\arctan x) = x, \\quad x \\in \\mathbb{R}\\)</div>
+    <div class="fline">\\(\\arctan(\\tan x) = x, \\quad x \\in \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)\\)</div>
+    <div class="fline">\\(\\arctan x + \\arctan y = \\arctan\\left(\\frac{x+y}{1-xy}\\right), \\quad xy < 1\\)</div>
+    <div class="fline">\\(\\arctan x + \\arctan y = \\arctan\\left(\\frac{x+y}{1-xy}\\right) + \\pi, \\quad x>0,\\; y>0,\\; xy>1\\)</div>
+    <div class="fline">\\(\\arctan x + \\arctan y = \\arctan\\left(\\frac{x+y}{1-xy}\\right) - \\pi, \\quad x<0,\\; y<0,\\; xy>1\\)</div>
+    <div class="fline">\\(\\arctan x - \\arctan y = \\arctan\\left(\\frac{x-y}{1+xy}\\right), \\quad xy > -1\\)</div>
+    <div class="fline">\\(2\\arctan x = \\arctan\\left(\\frac{2x}{1-x^2}\\right), \\quad |x| < 1\\)</div>
+    <div class="fline">\\(\\arctan x + \\arctan\\frac{1}{x} = \\frac{\\pi}{2}\\; (x>0), \\quad -\\frac{\\pi}{2}\\; (x<0)\\)</div>
+    <div class="fline">\\(\\arctan x = \\arcsin\\left(\\frac{x}{\\sqrt{1+x^2}}\\right), \\quad x \\in \\mathbb{R}\\)</div>
     </div></div>
     </div>
 
@@ -56,13 +74,10 @@ export function initUI() {
     <div class="fcard"><div class="fhead">Unghi Dublu \\(2\\alpha\\)</div><div class="fbody">
     <div class="fline">\\(\\sin 2\\alpha = 2\\sin\\alpha\\cos\\alpha\\)</div>
     <div class="fline">\\(\\cos 2\\alpha = \\cos^2\\alpha - \\sin^2\\alpha = 2\\cos^2\\alpha - 1\\)</div>
-    <div class="fline">\\(\\tan 2\\alpha = \\frac{2\\tan\\alpha}{1 - \\tan^2\\alpha}\\)</div>
-    <div class="fline">\\(\\cot 2x = \\frac{\\cot^2 x - 1}{2\\cot x}\\)</div>
 
     <div class="fcard"><div class="fhead">Unghi pe Jumătate \\(\\frac{\\alpha}{2}\\)</div><div class="fbody">
     <div class="fline">\\(\\sin\\frac{\\alpha}{2} = \\pm\\sqrt{\\frac{1 - \\cos\\alpha}{2}}\\)</div>
     <div class="fline">\\(\\cos\\frac{\\alpha}{2} = \\pm\\sqrt{\\frac{1 + \\cos\\alpha}{2}}\\)</div>
-    <div class="fline">\\(\\tan\\frac{\\alpha}{2} = \\frac{\\sin\\alpha}{1+\\cos\\alpha} = \\frac{1-\\cos\\alpha}{\\sin\\alpha}\\)</div>
     </div></div>
     </div>
 
@@ -70,7 +85,6 @@ export function initUI() {
     <div class="fcard"><div class="fbody">
     <div class="fline">\\(\\sin 3\\alpha = 3\\sin\\alpha - 4\\sin^3\\alpha\\)</div>
     <div class="fline">\\(\\cos 3\\alpha = 4\\cos^3\\alpha - 3\\cos\\alpha\\)</div>
-    <div class="fline">\\(\\tan 3\\alpha = \\frac{3\\tan\\alpha - \\tan^3\\alpha}{1 - 3\\tan^2\\alpha}\\)</div>
     </div></div>
 
     <!-- FORMULE NOI ADĂUGATE -->
@@ -94,7 +108,6 @@ export function initUI() {
     <div class="fcard"><div class="fbody">
     <div class="fline">\\(\\sin^2\\alpha = \\frac{1 - \\cos 2\\alpha}{2}\\)</div>
     <div class="fline">\\(\\cos^2\\alpha = \\frac{1 + \\cos 2\\alpha}{2}\\)</div>
-    <div class="fline">\\(\\tan^2\\alpha = \\frac{1 - \\cos 2\\alpha}{1 + \\cos 2\\alpha}\\)</div>
     </div></div>
     `;
 

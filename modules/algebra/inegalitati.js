@@ -26,7 +26,7 @@ export function initUI() {
     <div class="fbody">
     <div class="fline">\\(H_n = \\frac{n}{\\sum \\frac{1}{a_i}}, \\; G_n = \\sqrt[n]{\\prod a_i}, \\; A_n = \\frac{\\sum a_i}{n}, \\; Q_n = \\sqrt{\\frac{\\sum a_i^2}{n}}\\)</div>
     <div class="fline">\\(H_n \\le G_n \\le A_n \\le Q_n\\)</div>
-    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_cond')} \\(a_i > 0\\). ${t('lbl_eq')} toate egale.</div>
+    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_cond')} \\(a_i > 0\\). ${t('lbl_eq')} ${t('lbl_all_equal')}.</div>
     </div>
     </div>
     <div class="fcard">
@@ -92,7 +92,7 @@ export function initUI() {
     <div class="fhead" data-i18n="ineq_rearrange_title">${t('ineq_rearrange_title')}</div>
     <div class="fbody">
     <div class="fline">\\(a_1 \\ge \\dots \\ge a_n, \\; b_1 \\ge \\dots \\ge b_n \\implies \\sum a_i b_{n-i+1} \\le \\sum a_i b_{\\sigma(i)} \\le \\sum a_i b_i\\)</div>
-    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_eq')} \\(\\sigma\\) identică sau inversă.</div>
+    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_eq')} ${t('lbl_identity_or_reverse')}</div>
     </div>
     </div>
     <div class="fcard">
@@ -100,8 +100,8 @@ export function initUI() {
     <div class="fbody">
     <div class="fline">\\(n=3: \\frac{a_1b_1 + a_2b_2 + a_3b_3}{3} \\ge \\frac{a_1+a_2+a_3}{3} \\cdot \\frac{b_1+b_2+b_3}{3}\\)</div>
     <div class="fline">\\(n=4: \\frac{a_1b_1 + a_2b_2 + a_3b_3 + a_4b_4}{4} \\ge \\frac{a_1+a_2+a_3+a_4}{4} \\cdot \\frac{b_1+b_2+b_3+b_4}{4}\\)</div>
-    <div class="fline">\\(\\text{Monot. same/Aceeași monoton.: } \\frac{1}{n}\\sum_{i=1}^n a_i b_i \\ge (\\frac{1}{n}\\sum_{i=1}^n a_i)(\\frac{1}{n}\\sum_{i=1}^n b_i)\\)</div>
-    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_eq')} \\(a_i\\) sau \\(b_i\\) constante. ${t('lbl_cond')} ambele secvențe monotone în același sens.</div>
+    <div class="fline">${t('ineq_chebyshev_general')}</div>
+    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_eq')} ${t('ineq_chebyshev_eq')} ${t('lbl_cond')} ${t('ineq_chebyshev_cond')}</div>
     </div>
     </div>
     <div class="fcard">
@@ -110,7 +110,7 @@ export function initUI() {
     <div class="fline">\\(n=2: f(\\frac{x_1+x_2}{2}) \\le \\frac{f(x_1)+f(x_2)}{2}\\)</div>
     <div class="fline">\\(n=3: f(\\frac{x_1+x_2+x_3}{3}) \\le \\frac{f(x_1)+f(x_2)+f(x_3)}{3}\\)</div>
     <div class="fline">\\(\\text{General: } f(\\sum_{i=1}^n w_i x_i) \\le \\sum_{i=1}^n w_i f(x_i), \\; w_i \\ge 0, \\sum w_i = 1\\)</div>
-    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_eq')} \\(x_i\\) egale sau \\(f\\) liniară. Convex \\(\\implies \\le\\), concav \\(\\implies \\ge\\).</div>
+    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lbl_eq')} ${t('ineq_jensen_eq')}</div>
     </div>
     </div>
     <div class="fcard">
@@ -138,7 +138,7 @@ export function initUI() {
     <div class="fbody">
     <div class="fline">\\(\\sin A + \\sin B + \\sin C \\le \\frac{3\\sqrt{3}}{2}\\)</div>
     <div class="fline">\\(\\cos A + \\cos B + \\cos C \\le \\frac{3}{2}\\)</div>
-    <div class="fline">\\(\\tan A + \\tan B + \\tan C \\ge 3\\sqrt{3} \\quad (\\triangle \\text{ ascuțitunghic})\\)</div>
+    <div class="fline">\\(\\tan A + \\tan B + \\tan C \\ge 3\\sqrt{3} \\quad (\\triangle \\text{ ${t('ineq_acute_triangle')}})\\)</div>
     <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('ineq_cond_abc')} ${t('ineq_trig_eq')}</div>
     </div>
     </div>

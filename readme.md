@@ -1,6 +1,6 @@
 # 🧮 Math Suite — Modular
 
-> O aplicație web matematică modulară, interactivă și rapidă, construită cu JavaScript vanilla, CSS și MathJax. Fără framework-uri, fără build steps. Doar matematică, clară și accesibilă.
+> O aplicație web matematică modulară, interactivă și rapidă, construită cu JavaScript vanilla, CSS și MathJax. Fără framework-uri și fără build obligatoriu. Doar matematică, clară și accesibilă.
 
 🔗 **Live Demo:** [exceliorxtreme.github.io/math-hub](https://exceliorxtreme.github.io/math-hub/)  
 [![Google Translate Friendly](https://img.shields.io/badge/Translate-Google%20Translate%20✅-4285F4?style=flat-square)](https://translate.google.com)
@@ -9,60 +9,131 @@
 
 ## ✨ Funcționalități
 
-- 🌐 **Suport Bilingv:** Comutare instantă RO ↔ EN printr-un sistem `i18n` custom.
-- 🌍 **Google Translate Friendly:** Proiectul este construit cu HTML semantic și structură curată, ceea ce îl face perfect compatibil cu Google Translate (click dreapta → „Translate to..."). Deși aplicația include deja suport nativ RO ↔ EN, această compatibilitate permite utilizatorilor să traducă rapid conținutul în peste 100 de limbi, direct din browser, fără configurări suplimentare.
-- 🌓 **3 Teme Integrate:** `Default` (Terminal Green), `Carbon` (Dark Modern), `Sepia` (Luminos/Eye-friendly). Preferința se salvează în `localStorage`.
-- 📱 **100% Responsive:** Taburi adaptive, input-uri optimizate pentru touch, layout care se comportă natural pe mobil/tabletă/desktop.
-- 🧩 **Arhitectură Modulară:** Încărcare dinamică via `import()`. Se rulează doar ce este necesar. Zero overhead.
-- 📐 **8+ Domenii Matematice:** Aritmetică, Aritmetică Modulară, Trigonometrie, Analiză, Numere Complexe, Statistică, Probabilități, Inegalități.
-- ⚡ **MathJax 3:** Randare instantă a formulelor LaTeX în carduri, tabele și rezultate.
-- 🚀 **Optimizat pentru GitHub Pages:** Structură statică curată + sistem de cache-busting (`?v=`) pentru update-uri fără erori.
+- 🌐 **Suport bilingv:** comutare instantă RO ↔ EN printr-un sistem `i18n` custom.
+- 🌍 **Google Translate friendly:** HTML semantic și structură curată, compatibile cu traducerea directă din browser.
+- 🌓 **3 teme integrate:** `Default` (Terminal Green), `Carbon` (dark neutru inspirat de interfețe de cod), `Sepia` transformată în temă deschisă printer-friendly alb/gri. Preferința se salvează în `localStorage`.
+- 🖨️ **Print friendly:** regulă `@media print` pentru randare alb/negru curată la imprimare.
+- 📱 **Responsive:** taburi adaptive, input-uri optimizate pentru touch și layout stabil pe mobil/tabletă/desktop.
+- 🧩 **Arhitectură modulară:** module încărcate dinamic via `import()`, doar când sunt necesare.
+- 📐 **Domenii matematice:** aritmetică, aritmetică modulară, algebră, trigonometrie, analiză, numere complexe, statistică, probabilități.
+- ⚡ **MathJax 3 local:** formulele LaTeX sunt randate din `vendor/mathjax`, deci site-ul clonat nu depinde de CDN pentru MathJax.
+- ✅ **Verificări locale:** scripturi pentru sintaxă JS, chei i18n și importuri de module.
+- 🚀 **Optimizat pentru GitHub Pages:** structură statică simplă, potrivită pentru hosting direct.
 
 ---
 
-## 🛠️ Stack Tehnologic
+## 🛠️ Stack tehnologic
 
 | Componentă | Tehnologie |
-|------------|-----------|
-| **Frontend** | HTML5, CSS3 (Variables, Flexbox/Grid), Vanilla JavaScript (ES6 Modules) |
-| **Randare Matematică** | MathJax 3 (tex-mml-chtml) |
-| **Hosting** | GitHub Pages |
-| **Dependențe** | Zero (niciun framework, niciun bundler) |
-|🔗 **Qwen AI** | 🤖 Dezvoltat cu Asistență AI  https://qwen.ai
+|------------|------------|
+| Frontend | HTML5, CSS3, Vanilla JavaScript, ES Modules |
+| Randare matematică | MathJax 3 `tex-mml-chtml`, vendorizat local |
+| Styling | CSS variables, Flexbox/Grid, teme custom |
+| Hosting | GitHub Pages / orice server static |
+| Verificări | Node.js scripts |
+| AI helper | Qwen AI, OpenAI Codex |
 
 ---
 
-## 📁 Structura Proiectului
-
+## 📁 Structura proiectului
 
 ```text
 math-hub/
-├── index.html              # Structura UI, taburi, container module
-├── main.js                 # Logică centrală: routing, loader, init teme/limbă
-├── style.css               # Stiluri globale, variabile, responsive breakpoints
+├── index.html              # UI principal, taburi, container module
+├── main.js                 # Routing, loader module, teme, limbă
+├── css/
+│   └── style.css           # Stiluri globale, teme, responsive, print
 ├── utils/
-│   └── i18n.js             # Dicționar traduceri + funcția applyLang()
-├── modules/                # Module funcționale (încărcate la cerere)
-│   ├── algebra/            # Identități, Pascal, Lagrange, Inegalități
-│   ├── aritmetica/         # Fracții, factori, CMMDC/CMMMC, sume puteri
-│   ├── modulara/           # ℤₙ, invers modular, diofantice, Pell, fracții continue, Möbius
-│   ├── trig/               # Valori exacte, formule sumă/dublu/triplu, reducere puteri
+│   └── i18n.js             # Dicționar RO/EN + applyLang()
+├── modules/                # Module funcționale încărcate la cerere
+│   ├── algebra/            # Identități, inegalități
+│   ├── aritmetica/         # Fracții, factori, baze, prime, combinări
+│   ├── modulara/           # Operații modulo, diofantice, Pell, Möbius, fracții continue
+│   ├── trig/               # Valori exacte, formule trigonometrice, tan/arctan
 │   ├── analiza/            # Derivate, integrale, Taylor, grafice Canvas
-│   ├── complexe/           # Reprezentări, operații, ecuații grad II/binomă/unitate
-│   ├── statistica/         # Medii, varianță, abatere standard, coeficient variație
-│   └── probabilitati/      # Combinări, aranjamente, permutări, distribuții
-└── README.md
+│   ├── complexe/           # Baze, calculator, ecuații complexe
+│   ├── statistica/         # Prezentare și calculator statistic
+│   └── probabilitati/      # Prezentare și calculator probabilități
+├── vendor/
+│   └── mathjax/            # MathJax local + licență Apache-2.0
+├── scripts/
+│   ├── check-js.mjs
+│   ├── check-i18n.mjs
+│   └── check-imports.mjs
+├── resources.html
+├── package.json
+└── readme.md
+```
 
-💚 Construit cu pasiune pentru matematică clară, riguroasă și accesibilă.
-Built with passion for clear, rigorous, and accessible mathematics.
-# 1. Clonează repository-ul
+---
+
+## ▶️ Rulare locală
+
+Clonează repository-ul:
+
+```bash
 git clone https://github.com/exceliorxtreme/math-hub.git
 cd math-hub
+```
 
-# 2. Deschide local
-# Opțiunea A: Deschide index.html direct în browser
-# Opțiunea B: Rulează un server local
-python3 -m http.server 8000  # apoi accesează http://localhost:8000
-✨ Construit pentru rapiditate, precizie și claritate matematică.
-# Optimizat pentru studenți, profesori și pasionați.
+Rulează un server static local:
 
+```bash
+python -m http.server 8000
+```
+
+Apoi deschide:
+
+```text
+http://localhost:8000
+```
+
+Notă: aplicația folosește ES Modules, deci este recomandat server local în loc de deschidere directă cu dublu-click pe `index.html`.
+
+---
+
+## ✅ Verificări
+
+Dacă ai Node.js instalat:
+
+```bash
+npm install
+npm run check
+```
+
+`npm run check` rulează:
+
+- `check:js` — verifică sintaxa fișierelor JS ale aplicației;
+- `check:i18n` — verifică dacă toate cheile `data-i18n` și `t(...)` există în RO/EN;
+- `check:imports` — verifică importurile ES ale modulelor din `modules/`.
+
+---
+
+## 📦 MathJax local
+
+MathJax este inclus în:
+
+```text
+vendor/mathjax/
+```
+
+Fișierul principal încărcat de aplicație este:
+
+```text
+vendor/mathjax/es5/tex-mml-chtml.js
+```
+
+MathJax este distribuit sub licența Apache-2.0, iar licența este păstrată în `vendor/mathjax/LICENSE`.
+
+---
+
+## 🤖 AI helper
+
+Proiectul a fost dezvoltat și rafinat cu asistență AI:
+
+- Qwen AI
+- OpenAI Codex
+
+---
+
+💚 Construit pentru rapiditate, precizie și claritate matematică.

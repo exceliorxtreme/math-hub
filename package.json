@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "scripts": {
+    "check": "npm run check:js && npm run check:i18n && npm run check:imports",
+    "check:js": "node scripts/check-js.mjs",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "check:imports": "node scripts/check-imports.mjs"
+  },
+  "dependencies": {
+    "mathjax": "^3.2.2"
+  }
+}
