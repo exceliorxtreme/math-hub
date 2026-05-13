@@ -12,7 +12,7 @@ export function initUI() {
     <!-- 1️⃣ Șiruri Fundamentale -->
     <div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;">${t('lim_sec_seq')}</div>
     <div class="fcards">
-    div class="fcard">
+    <div class="fcard">
     <div class="fhead">${t('lim_seq_euler')}</div>
     <div class="fbody">
     <div class="fline">\\(H_n = \\sum_{k=1}^n \\frac{1}{k} = 1 + \\frac{1}{2} + \\frac{1}{3} + \\dots + \\frac{1}{n}\\)</div>
