@@ -12,7 +12,7 @@ export function initUI() {
     <!-- 1️⃣ Șiruri Fundamentale -->
     <div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;">${t('lim_sec_seq')}</div>
     <div class="fcards">
-    div class="fcard">
+    <div class="fcard">
     <div class="fhead">${t('lim_seq_euler')}</div>
     <div class="fbody">
     <div class="fline">\\(H_n = \\sum_{k=1}^n \\frac{1}{k} = 1 + \\frac{1}{2} + \\frac{1}{3} + \\dots + \\frac{1}{n}\\)</div>
@@ -71,11 +71,13 @@ export function initUI() {
     <div class="fcard">
     <div class="fhead">${t('lim_func_trig_exp')}</div>
     <div class="fbody">
-    <div class="fline">\\(\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1 \\implies (\\sin x)' = \\cos x\\)</div>
+    <div class="fline">\\(\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1\\)</div>
+    <div class="fline">\\(\\lim_{x \\to 0} \\frac{\\tan x}{x} = 1, \\quad \\lim_{x \\to 0} \\frac{\\arcsin x}{x} = 1, \\quad \\lim_{x \\to 0} \\frac{\\arctan x}{x} = 1\\)</div>
     <div class="fline">\\(\\lim_{x \\to 0} \\frac{1-\\cos x}{x^2} = \\frac12\\)</div>
-    <div class="fline">\\(\\lim_{x \\to 0} \\frac{e^x-1}{x} = 1 \\implies (e^x)' = e^x\\)</div>
-    <div class="fline">\\(\\lim_{x \\to 0} \\frac{\\ln(1+x)}{x} = 1 \\implies (\\ln x)' = \\frac1x\\)</div>
-    </div>
+    <div class="fline">\\(\\lim_{x \\to 0} \\frac{e^x-1}{x} = 1\\)</div>
+    <div class="fline">\\(\\lim_{x \\to 0} \\frac{\\ln(1+x)}{x} = 1\\)</div>
+    <div class="fline">\\(\\lim_{x \\to 0} \\frac{(1+x)^r - 1}{x} = r \\quad (r \\in \\mathbb{R})\\)</div>
+    <div class="fline" style="color:var(--text-muted); font-size:0.85rem;">${t('lim_func_note')}</div>
     </div>
     </div>
 

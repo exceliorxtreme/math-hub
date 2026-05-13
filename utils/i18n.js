@@ -356,7 +356,6 @@ export const DICT = {
         pell_err_no_minus1: "Nu există soluții întregi pentru = -1 cu acest D.",
         pell_err_nosol: "Nu s-a găsit soluție în limita de calcul.",
         pell_err_calc: "Eroare de calcul internă.",
-        // (Restul cheilor pell_* rămân la fel ca înainte)
         pell_fund_note: "Soluția minimă pozitivă. Restul se generează cu formula generală.",
         pell_minus1_note: "Ecuația = -1 are soluții doar dacă perioada fracției continue a lui √D este impară.",
         pell_sec_verify: "3️⃣ Verificare & Generare",
@@ -414,7 +413,7 @@ export const DICT = {
         lim_sec_func: "3️⃣ Limite de Funcții (Pre-L'Hospital)",
         lim_func_xx: "Forma 0⁰ și x^x",
         lim_func_xx_note: "Demonstrată prin compunere cu funcția exponențială și continuitate.",
-        lim_func_trig_exp: "Limite trigonometrice și exponențiale",
+        lim_func_trig_exp: "Limite trigonometrice, exponențiale și binomiale",
         lim_sec_crit: "4️⃣ Criterii de Convergență",
         lim_crit_cesaro: "Cesàro-Stolz",
         lim_crit_cesaro_note: "Analogul discret al regulii lui L'Hospital pentru șiruri.",
@@ -432,6 +431,7 @@ export const DICT = {
         lim_lh_type_diff: "Diferență: aduce la numitor comun, raționalizează sau scoate factor comun.",
         lim_lh_type_pow: "Puteri nedeterminate: logaritmăm pentru a obține forma \\(0 \\cdot \\infty\\) sau \\(\\frac{\\infty}{\\infty}\\).",
         sub_limite: "📈 Limite Fundamentale",
+        lim_func_note: "Baza geometrică/analitică pentru derivarea funcțiilor trigonometrice și exponențiale.",
 
 
 
@@ -850,7 +850,7 @@ export const DICT = {
         lim_sec_func: "3️⃣ Function Limits (Pre-L'Hospital)",
         lim_func_xx: "0⁰ Form & x^x",
         lim_func_xx_note: "Proven via composition with exponential function and continuity.",
-        lim_func_trig_exp: "Trigonometric & Exponential Limits",
+        lim_func_trig_exp: "Trigonometric, Exponential & Binomial Limits",
         lim_sec_crit: "4️⃣ Convergence Criteria",
         lim_crit_cesaro: "Cesàro-Stolz",
         lim_crit_cesaro_note: "Discrete analog of L'Hospital's rule for sequences.",
@@ -868,6 +868,7 @@ export const DICT = {
         lim_lh_type_diff: "Difference: common denominator, rationalize, or factor out.",
         lim_lh_type_pow: "Indeterminate powers: take logarithm to get \\(0 \\cdot \\infty\\) or \\(\\frac{\\infty}{\\infty}\\).",
         sub_limite: "📈 Fundamental Limits",
+        lim_func_note: "Geometric/analytic basis for deriving trig and exponential functions.",
 
     }
 };
