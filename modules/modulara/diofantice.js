@@ -89,7 +89,7 @@ export function initUI() {
         const bg = b / g, ag = a / g;
 
         out.innerHTML = `
-        <div class="fline">\\(\\gcd(${a}, ${b}) = ${g} \\mid ${c} \\implies \\text{soluții există}\\)</div>
+        <div class="fline">\\(\\gcd(${a}, ${b}) = ${g} \\mid ${c} \\implies \\text{${t('diof_sol_exists')}}\\)</div>
         <div class="fline">\\(x = ${xp} ${bg > 0 ? '+' : '-'} ${Math.abs(bg)} \\cdot t\\)</div>
         <div class="fline">\\(y = ${yp} ${ag > 0 ? '-' : '+'} ${Math.abs(ag)} \\cdot t, \\quad t \\in \\mathbb{Z}\\)</div>
         <div class="fline" style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">${t('diof_note_particular')}</div>
