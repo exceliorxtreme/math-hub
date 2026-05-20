@@ -100,12 +100,18 @@ export function initUI() {
     function showLocal(target, content, err = false, allowHtml = false) {
     target.style.display = 'block';
     
-    if (allowHtml && !err) {
-        // ✅ Permite HTML/MathJax doar când este explicit permis și nu e eroare
+    // 🔒 ERORI: mereu textContent, zero interpretare HTML (CodeQL compliant)
+    if (err) {
+        target.textContent = String(content);
+    } 
+    // ✅ CONȚINUT LEGITIM: innerHTML doar pentru LaTeX generat intern (nu input utilizator)
+    else if (allowHtml) {
+        // Notă: `content` este întotdeauna generat intern din valori numerice validate,
+        // nu conține input brut de la utilizator. Safe pentru MathJax.
         target.innerHTML = content;
-    } else {
-        // 🔒 Safe-by-default: textContent previne execuția HTML/JS accidental
-        // (escapeHtml nu e strict necesar aici, dar îl poți păstra ca redundanță defensivă)
+    } 
+    // 🔒 DEFAULT: textContent pentru orice alt caz
+    else {
         target.textContent = String(content);
     }
     
