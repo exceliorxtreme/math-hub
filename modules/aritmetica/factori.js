@@ -14,7 +14,7 @@ function lcm(a, b) {
 }
 
 function factorize(n) {
-    if (n < 2) throw new Error(t('fact_err_min') || "Numărul trebuie să fie ≥ 2");
+    if (n < 2) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 2");
     const factors = [];
     let temp = n;
     for (let p = 2; p * p <= temp; p++) {
@@ -42,7 +42,6 @@ function isPrimeGB(n) {
 
 export function initUI() {
     const ws = document.getElementById('workspace');
-    const resBox = document.getElementById('result');
 
     ws.innerHTML = `
     <h2 data-i18n="fact_title">${t('fact_title')}</h2>
@@ -62,6 +61,8 @@ export function initUI() {
         <button id="btn-gcd" style="background:#e67e22" data-i18n="fact_btn_gcd">${t('fact_btn_gcd')}</button>
         <button id="btn-lcm" style="background:#2ecc71" data-i18n="fact_btn_lcm">${t('fact_btn_lcm')}</button>
     </div>
+    <!-- ✅ Output local pentru primele 3 butoane -->
+    <div id="out-top" style="margin-top:10px; font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
 
     <!-- 🔢 Goldbach Section -->
     <div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;">${t('gold_sec')}</div>
@@ -81,23 +82,25 @@ export function initUI() {
                         <input type="radio" name="gold-mode" value="3"> ${t('gold_mode_3')}
                     </label>
                 </div>
+                <!-- ✅ Output local pentru Goldbach -->
                 <div id="out-gold" style="font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
             </div>
         </div>
     </div>
     `;
 
-    // 🔒 Safe-by-default show function
-    function show(content, err = false, allowHtml = false) {
-        resBox.style.display = 'block';
-        if (allowHtml) resBox.innerHTML = content;
-        else resBox.textContent = content;
-        resBox.style.borderLeftColor = err ? '#ff5555' : 'var(--accent)';
-        if (window.MathJax?.typesetPromise) {
-            MathJax.typesetPromise([resBox]).catch(() => {});
-        }
+    // 🔒 Helper securizat pentru output-uri locale
+    function showLocal(target, content, err = false, allowHtml = false) {
+        target.style.display = 'block';
+        if (allowHtml) target.innerHTML = content;
+        else target.textContent = content;
+        target.style.borderLeft = err ? '3px solid #e74c3c' : 'none';
+        target.style.paddingLeft = err ? '8px' : '0';
+        if (window.MathJax?.typesetPromise) MathJax.typesetPromise([target]).catch(() => {});
     }
 
+    const outTop = document.getElementById('out-top');
+    const outGold = document.getElementById('out-gold');
     const getVal = id => BigInt(document.getElementById(id).value.trim() || '0');
 
     // Factorizare
@@ -108,8 +111,8 @@ export function initUI() {
             if (a > 100000000000000n) throw new Error(t('fact_err_max') || "Maxim 10¹⁴");
             const factors = factorize(Number(a));
             const latex = factors.map(f => f.count === 1 ? `${f.p}` : `${f.p}^{${f.count}}`).join(' \\times ');
-            show(`\\(${a} = ${latex}\\)`, false, true);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+            showLocal(outTop, `\\(${a} = ${latex}\\)`, false, true);
+        } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
     });
 
     // CMMDC
@@ -119,8 +122,8 @@ export function initUI() {
             const b = getVal('fact-b');
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 1");
             const rez = gcd(a, b);
-            show(`\\(CMMDC(${a}, ${b}) = ${rez}\\)`, false, true);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+            showLocal(outTop, `\\(CMMDC(${a}, ${b}) = ${rez}\\)`, false, true);
+        } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
     });
 
     // CMMMC
@@ -130,69 +133,71 @@ export function initUI() {
             const b = getVal('fact-b');
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 1");
             const rez = lcm(a, b);
-            show(`\\(CMMMC(${a}, ${b}) = ${rez}\\)`, false, true);
-        } catch (e) { show(`❌ ${e.message}`, true); }
+            showLocal(outTop, `\\(CMMMC(${a}, ${b}) = ${rez}\\)`, false, true);
+        } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
     });
 
-    // 🔢 Goldbach (2 sau 3 prime)
+    // 🔢 Goldbach
     const btnGold = document.getElementById('btn-gold');
-    if (btnGold) {
+    if (btnGold && outGold) {
         btnGold.addEventListener('click', () => {
             const n = Number(document.getElementById('gold-n').value);
             const mode = document.querySelector('input[name="gold-mode"]:checked').value;
-            const out = document.getElementById('out-gold');
             const btn = document.getElementById('btn-gold');
+
             const min = mode === '2' ? 4 : 7;
             const isEven = n % 2 === 0;
             const isValid = (mode === '2' && isEven) || (mode === '3' && !isEven);
-            
+
             if (!Number.isInteger(n) || n < min || !isValid) {
-                return show(`⚠️ ${mode === '2' ? t('gold_err_even') : t('gold_err_odd')}`, true);
+                outGold.textContent = `⚠️ ${mode === '2' ? t('gold_err_even') : t('gold_err_odd')}`;
+                outGold.style.color = '#e74c3c'; return;
             }
             if (n > MAX_GOLDBACH) {
-                return show(`⚠️ ${t('gold_err_limit')}`, true);
+                outGold.textContent = `⚠️ ${t('gold_err_limit')}`;
+                outGold.style.color = '#e74c3c'; return;
             }
 
-            btn.disabled = true; btn.textContent = '⏳ Calculez...'; out.innerHTML = '';
-            
+            btn.disabled = true; btn.textContent = '⏳ Calculez...'; outGold.innerHTML = '';
+            outGold.style.color = 'var(--text)';
+
             setTimeout(() => {
                 try {
-    let results = [];
-    const MAX_LIMIT = 100;
-    
-    if (mode === '2') {
-        for (let p = 2; p <= n / 2 && results.length < MAX_LIMIT; p++) {
-            if (isPrimeGB(p) && isPrimeGB(n - p)) results.push([p, n - p]);
-        }
-    } else {
-        for (let p = 2; p <= n - 4 && results.length < MAX_LIMIT; p++) {
-            if (!isPrimeGB(p)) continue;
-            const rest = n - p;
-            for (let q = 2; q <= rest / 2 && results.length < MAX_LIMIT; q++) {
-                if (isPrimeGB(q) && isPrimeGB(rest - q)) {
-                    results.push([p, q, rest - q]);
-                    break;
+                    let results = [];
+                    const MAX_LIMIT = 100;
+                    if (mode === '2') {
+                        for (let p = 2; p <= n / 2 && results.length < MAX_LIMIT; p++) {
+                            if (isPrimeGB(p) && isPrimeGB(n - p)) results.push([p, n - p]);
+                        }
+                    } else {
+                        for (let p = 2; p <= n - 4 && results.length < MAX_LIMIT; p++) {
+                            if (!isPrimeGB(p)) continue;
+                            const rest = n - p;
+                            for (let q = 2; q <= rest / 2 && results.length < MAX_LIMIT; q++) {
+                                if (isPrimeGB(q) && isPrimeGB(rest - q)) {
+                                    results.push([p, q, rest - q]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (results.length === 0) {
+                        outGold.textContent = `❌ ${t('gold_err_none')}`;
+                        outGold.style.color = '#e74c3c';
+                    } else {
+                        const latex = results.map(arr => `\\(${n} = ${arr.join(' + ')}\\)`).join('<br>');
+                        const totalMsg = results.length >= MAX_LIMIT ? `${results.length}+` : results.length;
+                        const showMsg = results.length >= MAX_LIMIT ? ` (${t('gold_showing')} ${MAX_LIMIT})` : '';
+                        outGold.innerHTML = `✅ ${t('gold_found')} ${totalMsg}${showMsg}:<br>${latex}`;
+                        outGold.style.color = 'var(--text)';
+                    }
+                } catch(e) {
+                    outGold.textContent = `❌ ${e.message}`;
+                    outGold.style.color = '#e74c3c';
                 }
-            }
-        }
-    }
-    
-    if (results.length === 0) {
-        show(`❌ ${t('gold_err_none')}`, true);
-    } else {
-        const latex = results.map(arr => `\\(${n} = ${arr.join(' + ')}\\)`).join('<br>');
-        // ✅ Mesaj nuanțat dinamic
-        const totalMsg = results.length >= MAX_LIMIT ? `${results.length}+` : results.length;
-        const showMsg = results.length >= MAX_LIMIT ? ` (${t('gold_showing')} ${MAX_LIMIT})` : '';
-        show(`✅ ${t('gold_found')} ${totalMsg}${showMsg}:<br>${latex}`, false, true);
-    }
-}
- catch(e) {
-    show(`❌ ${e.message}`, true);
-}
-    
                 btn.disabled = false; btn.textContent = t('gold_btn');
-                if (window.MathJax?.typesetPromise) MathJax.typesetPromise([out]).catch(() => {});
+                if (window.MathJax?.typesetPromise) MathJax.typesetPromise([outGold]).catch(() => {});
             }, 50);
         });
     }
