@@ -444,6 +444,7 @@ gold_found: "Perechi găsite:",
         gold_mode_2: "2 prime (numere pare)",
 gold_mode_3: "3 prime (numere impare)",
 gold_err_odd: "Introduceți un număr impar ≥ 7.",
+        gold_showing: "afișate primele",
 
 
 
@@ -893,6 +894,8 @@ gold_err_none: "No decompositions found.",
 gold_found: "Decompositions found:",
 gold_mode_2: "2 primes (even numbers)",
 gold_mode_3: "3 primes (odd numbers)",
+        gold_showing: "showing first",
+        
     }
 };
 
