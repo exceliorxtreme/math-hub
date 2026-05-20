@@ -14,7 +14,7 @@ function lcm(a, b) {
 }
 
 function factorize(n) {
-    if (n < 2) throw new Error(t('fact_err_min') || "Numerele trebuie să fie ≥ 2");
+    if (n < 2) throw new Error(t('fact_err_min') || "Numărul trebuie să fie ≥ 2");
     const factors = [];
     let temp = n;
     for (let p = 2; p * p <= temp; p++) {
@@ -28,7 +28,7 @@ function factorize(n) {
     return factors;
 }
 
-// 🔢 Goldbach: primalitate optimizată 6k±1
+// 🔢 Goldbach Helper
 const MAX_GOLDBACH = 500000;
 function isPrimeGB(n) {
     if (n < 2) return false;
@@ -70,8 +70,16 @@ export function initUI() {
             <div class="fhead">${t('gold_title')}</div>
             <div class="fbody">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                    <input id="gold-n" type="number" min="4" max="500000" step="2" placeholder="${t('gold_ph')}" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
+                    <input id="gold-n" type="number" min="4" max="500000" placeholder="${t('gold_ph')}" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
                     <button id="btn-gold" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_btn')}</button>
+                </div>
+                <div style="display:flex; gap:12px; margin-bottom:8px; flex-wrap:wrap;">
+                    <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
+                        <input type="radio" name="gold-mode" value="2" checked> ${t('gold_mode_2')}
+                    </label>
+                    <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
+                        <input type="radio" name="gold-mode" value="3"> ${t('gold_mode_3')}
+                    </label>
                 </div>
                 <div id="out-gold" style="font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
             </div>
@@ -126,16 +134,21 @@ export function initUI() {
         } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
-    // 🔢 Goldbach (defensive: verificăm existența elementului)
+    // 🔢 Goldbach (2 sau 3 prime)
     const btnGold = document.getElementById('btn-gold');
     if (btnGold) {
         btnGold.addEventListener('click', () => {
             const n = Number(document.getElementById('gold-n').value);
+            const mode = document.querySelector('input[name="gold-mode"]:checked').value;
             const out = document.getElementById('out-gold');
             const btn = document.getElementById('btn-gold');
             
-            if (!Number.isInteger(n) || n < 4 || n % 2 !== 0) {
-                return show(`⚠️ ${t('gold_err_even')}`, true);
+            const min = mode === '2' ? 4 : 7;
+            const isEven = n % 2 === 0;
+            const isValid = (mode === '2' && isEven) || (mode === '3' && !isEven);
+            
+            if (!Number.isInteger(n) || n < min || !isValid) {
+                return show(`⚠️ ${mode === '2' ? t('gold_err_even') : t('gold_err_odd')}`, true);
             }
             if (n > MAX_GOLDBACH) {
                 return show(`⚠️ ${t('gold_err_limit')}`, true);
@@ -145,17 +158,31 @@ export function initUI() {
             
             setTimeout(() => {
                 try {
-                    const pairs = [];
-                    for (let p = 2; p <= n / 2; p++) {
-                        if (isPrimeGB(p) && isPrimeGB(n - p)) {
-                            pairs.push([p, n - p]);
+                    let results = [];
+                    if (mode === '2') {
+                        for (let p = 2; p <= n / 2; p++) {
+                            if (isPrimeGB(p) && isPrimeGB(n - p)) results.push([p, n - p]);
+                        }
+                    } else {
+                        for (let p = 2; p <= n - 4 && results.length < 10; p++) {
+                            if (!isPrimeGB(p)) continue;
+                            const rest = n - p;
+                            for (let q = 2; q <= rest / 2 && results.length < 10; q++) {
+                                if (isPrimeGB(q) && isPrimeGB(rest - q)) {
+                                    results.push([p, q, rest - q]);
+                                    break;
+                                }
+                            }
                         }
                     }
-                    if (pairs.length === 0) {
+                    
+                    if (results.length === 0) {
                         show(`❌ ${t('gold_err_none')}`, true);
                     } else {
-                        const latex = pairs.map(([a, b]) => `\\(${n} = ${a} + ${b}\\)`).join('<br>');
-                        show(`✅ ${t('gold_found')} ${pairs.length}:<br>${latex}`, false, true);
+                        const limit = Math.min(results.length, 10);
+                        const latex = results.slice(0, limit).map(arr => `\\(${n} = ${arr.join(' + ')}\\)`).join('<br>');
+                        const more = results.length > limit ? `<br><span style="color:var(--text-muted)">+ ${results.length - limit} mai multe...</span>` : '';
+                        show(`✅ ${t('gold_found')} ${results.length}:<br>${latex}${more}`, false, true);
                     }
                 } catch(e) {
                     show(`❌ ${e.message}`, true);
