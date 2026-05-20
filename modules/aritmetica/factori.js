@@ -90,7 +90,7 @@ export function initUI() {
     // 🔒 Helper securizat pentru output-uri locale
     function showLocal(target, content, err = false, allowHtml = false) {
         target.style.display = 'block';
-        if (allowHtml) target.innerHTML = content;
+        if (allowHtml && !err) target.innerHTML = content;
         else target.textContent = content;
         target.style.borderLeft = err ? '3px solid #e74c3c' : 'none';
         target.style.paddingLeft = err ? '8px' : '0';
