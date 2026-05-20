@@ -157,31 +157,39 @@ export function initUI() {
             btn.disabled = true; btn.textContent = '⏳ Calculez...'; out.innerHTML = '';
             
             setTimeout(() => {
-                try {
-                    let results = [];
-                    if (mode === '2') {
-                        for (let p = 2; p <= n / 2; p++) {
-                            if (isPrimeGB(p) && isPrimeGB(n - p)) results.push([p, n - p]);
-                        }
-                    } else {
-                        for (let p = 2; p <= n - 4 && results.length < 10; p++) {
-                            if (!isPrimeGB(p)) continue;
-                            const rest = n - p;
-                            for (let q = 2; q <= rest / 2 && results.length < 10; q++) {
-                                if (isPrimeGB(q) && isPrimeGB(rest - q)) {
-                                    results.push([p, q, rest - q]);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (results.length === 0) {
-                        show(`❌ ${t('gold_err_none')}`, true);
-                    } else {
-                       const latex = results.map(arr => `\\(${n} = ${arr.join(' + ')}\\)`).join('<br>');
-show(`✅ ${t('gold_found')} ${results.length}:<br>${latex}`, false, true);
-                    }
+               try {
+    let results = [];
+    const MAX_LIMIT = 100;
+    
+    if (mode === '2') {
+        for (let p = 2; p <= n / 2 && results.length < MAX_LIMIT; p++) {
+            if (isPrimeGB(p) && isPrimeGB(n - p)) results.push([p, n - p]);
+        }
+    } else {
+        for (let p = 2; p <= n - 4 && results.length < MAX_LIMIT; p++) {
+            if (!isPrimeGB(p)) continue;
+            const rest = n - p;
+            for (let q = 2; q <= rest / 2 && results.length < MAX_LIMIT; q++) {
+                if (isPrimeGB(q) && isPrimeGB(rest - q)) {
+                    results.push([p, q, rest - q]);
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (results.length === 0) {
+        show(`❌ ${t('gold_err_none')}`, true);
+    } else {
+        const latex = results.map(arr => `\\(${n} = ${arr.join(' + ')}\\)`).join('<br>');
+        // ✅ Mesaj nuanțat dinamic
+        const totalMsg = results.length >= MAX_LIMIT ? `${results.length}+` : results.length;
+        const showMsg = results.length >= MAX_LIMIT ? ` (${t('gold_showing')} ${MAX_LIMIT})` : '';
+        show(`✅ ${t('gold_found')} ${totalMsg}${showMsg}:<br>${latex}`, false, true);
+    }
+} catch(e) {
+    show(`❌ ${e.message}`, true);
+}
                 } catch(e) {
                     show(`❌ ${e.message}`, true);
                 }
