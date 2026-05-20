@@ -142,7 +142,6 @@ export function initUI() {
             const mode = document.querySelector('input[name="gold-mode"]:checked').value;
             const out = document.getElementById('out-gold');
             const btn = document.getElementById('btn-gold');
-            
             const min = mode === '2' ? 4 : 7;
             const isEven = n % 2 === 0;
             const isValid = (mode === '2' && isEven) || (mode === '3' && !isEven);
@@ -157,7 +156,7 @@ export function initUI() {
             btn.disabled = true; btn.textContent = '⏳ Calculez...'; out.innerHTML = '';
             
             setTimeout(() => {
-               try {
+                try {
     let results = [];
     const MAX_LIMIT = 100;
     
@@ -187,12 +186,11 @@ export function initUI() {
         const showMsg = results.length >= MAX_LIMIT ? ` (${t('gold_showing')} ${MAX_LIMIT})` : '';
         show(`✅ ${t('gold_found')} ${totalMsg}${showMsg}:<br>${latex}`, false, true);
     }
-} catch(e) {
+}
+ catch(e) {
     show(`❌ ${e.message}`, true);
 }
-                } catch(e) {
-                    show(`❌ ${e.message}`, true);
-                }
+    
                 btn.disabled = false; btn.textContent = t('gold_btn');
                 if (window.MathJax?.typesetPromise) MathJax.typesetPromise([out]).catch(() => {});
             }, 50);
