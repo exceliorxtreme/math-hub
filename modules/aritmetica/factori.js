@@ -179,10 +179,8 @@ export function initUI() {
                     if (results.length === 0) {
                         show(`❌ ${t('gold_err_none')}`, true);
                     } else {
-                        const limit = Math.min(results.length, 10);
-                        const latex = results.slice(0, limit).map(arr => `\\(${n} = ${arr.join(' + ')}\\)`).join('<br>');
-                        const more = results.length > limit ? `<br><span style="color:var(--text-muted)">+ ${results.length - limit} mai multe...</span>` : '';
-                        show(`✅ ${t('gold_found')} ${results.length}:<br>${latex}${more}`, false, true);
+                       const latex = results.map(arr => `\\(${n} = ${arr.join(' + ')}\\)`).join('<br>');
+show(`✅ ${t('gold_found')} ${results.length}:<br>${latex}`, false, true);
                     }
                 } catch(e) {
                     show(`❌ ${e.message}`, true);
