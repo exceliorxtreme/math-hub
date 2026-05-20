@@ -433,6 +433,14 @@ export const DICT = {
         lim_lh_type_pow: "Puteri nedeterminate: logaritmăm pentru a obține forma \\(0 \\cdot \\infty\\) sau \\(\\frac{\\infty}{\\infty}\\).",
         sub_limite: "📈 Limite Fundamentale",
         lim_func_note: "Baza geometrică/analitică pentru derivarea funcțiilor trigonometrice și exponențiale.",
+        gold_sec: "🔢 Conjectura lui Goldbach",
+gold_title: "Descompunere în sumă de numere prime",
+gold_ph: "Număr par (ex: 10, 28, 100)",
+gold_btn: "Descompune",
+gold_err_even: "Introduceți un număr par ≥ 4.",
+gold_err_limit: "Limită sigură: n ≤ 500.000 (evită blocarea browserului).",
+gold_err_none: "Nu s-au găsit descompuneri (contrazice conjectura).",
+gold_found: "Perechi găsite:",
 
 
 
@@ -871,7 +879,14 @@ export const DICT = {
         lim_lh_type_pow: "Indeterminate powers: take logarithm to get \\(0 \\cdot \\infty\\) or \\(\\frac{\\infty}{\\infty}\\).",
         sub_limite: "📈 Fundamental Limits",
         lim_func_note: "Geometric/analytic basis for deriving trig and exponential functions.",
-
+        gold_sec: "🔢 Goldbach's Conjecture",
+gold_title: "Decomposition into sum of primes",
+gold_ph: "Even number (e.g., 10, 28, 100)",
+gold_btn: "Decompose",
+gold_err_even: "Enter an even integer ≥ 4.",
+gold_err_limit: "Safe limit: n ≤ 500,000 (prevents browser freeze).",
+gold_err_none: "No decompositions found (contradicts conjecture).",
+gold_found: "Pairs found:",
     }
 };
 
