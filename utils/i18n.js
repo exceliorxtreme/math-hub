@@ -441,6 +441,9 @@ gold_err_even: "Introduceți un număr par ≥ 4.",
 gold_err_limit: "Limită sigură: n ≤ 500.000 (evită blocarea browserului).",
 gold_err_none: "Nu s-au găsit descompuneri (contrazice conjectura).",
 gold_found: "Perechi găsite:",
+        gold_mode_2: "2 prime (numere pare)",
+gold_mode_3: "3 prime (numere impare)",
+gold_err_odd: "Introduceți un număr impar ≥ 7.",
 
 
 
@@ -878,15 +881,18 @@ gold_found: "Perechi găsite:",
         lim_lh_type_diff: "Difference: common denominator, rationalize, or factor out.",
         lim_lh_type_pow: "Indeterminate powers: take logarithm to get \\(0 \\cdot \\infty\\) or \\(\\frac{\\infty}{\\infty}\\).",
         sub_limite: "📈 Fundamental Limits",
-        lim_func_note: "Geometric/analytic basis for deriving trig and exponential functions.",
-        gold_sec: "🔢 Goldbach's Conjecture",
+        lim_func_note: "Geometric/analytic basis for deriving trig and exponential functions.",     
+gold_sec: "🔢 Goldbach's Conjecture",
 gold_title: "Decomposition into sum of primes",
-gold_ph: "Even number (e.g., 10, 28, 100)",
+gold_ph: "Number (e.g., 10, 11, 28)",
 gold_btn: "Decompose",
 gold_err_even: "Enter an even integer ≥ 4.",
+gold_err_odd: "Enter an odd integer ≥ 7.",
 gold_err_limit: "Safe limit: n ≤ 500,000 (prevents browser freeze).",
-gold_err_none: "No decompositions found (contradicts conjecture).",
-gold_found: "Pairs found:",
+gold_err_none: "No decompositions found.",
+gold_found: "Decompositions found:",
+gold_mode_2: "2 primes (even numbers)",
+gold_mode_3: "3 primes (odd numbers)",
     }
 };
 
