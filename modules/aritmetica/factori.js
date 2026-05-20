@@ -28,6 +28,18 @@ function factorize(n) {
     return factors;
 }
 
+// 🔢 Goldbach: primalitate optimizată 6k±1
+const MAX_GOLDBACH = 500000;
+function isPrimeGB(n) {
+    if (n < 2) return false;
+    if (n === 2 || n === 3) return true;
+    if (n % 2 === 0 || n % 3 === 0) return false;
+    for (let i = 5; i * i <= n; i += 6) {
+        if (n % i === 0 || n % (i + 2) === 0) return false;
+    }
+    return true;
+}
+
 export function initUI() {
     const ws = document.getElementById('workspace');
     const resBox = document.getElementById('result');
@@ -35,32 +47,52 @@ export function initUI() {
     ws.innerHTML = `
     <h2 data-i18n="fact_title">${t('fact_title')}</h2>
     <div class="description" data-i18n="fact_desc">${t('fact_desc')}</div>
+    
     <div class="input-group">
-    <label data-i18n="fact_lbl_a">${t('fact_lbl_a')}</label>
-    <input id="fact-a" type="number" min="1" max="100000000000000" placeholder="Ex: 360">
+        <label data-i18n="fact_lbl_a">${t('fact_lbl_a')}</label>
+        <input id="fact-a" type="number" min="1" max="100000000000000" placeholder="Ex: 360">
     </div>
     <div class="input-group">
-    <label data-i18n="fact_lbl_b">${t('fact_lbl_b')}</label>
-    <input id="fact-b" type="number" min="1" max="100000000000000" placeholder="Ex: 1001">
+        <label data-i18n="fact_lbl_b">${t('fact_lbl_b')}</label>
+        <input id="fact-b" type="number" min="1" max="100000000000000" placeholder="Ex: 1001">
     </div>
+    
     <div class="btn-group btn-group-3">
-    <button id="btn-factor" data-i18n="fact_btn">${t('fact_btn')}</button>
-    <button id="btn-gcd" style="background:#e67e22" data-i18n="fact_btn_gcd">${t('fact_btn_gcd')}</button>
-    <button id="btn-lcm" style="background:#2ecc71" data-i18n="fact_btn_lcm">${t('fact_btn_lcm')}</button>
+        <button id="btn-factor" data-i18n="fact_btn">${t('fact_btn')}</button>
+        <button id="btn-gcd" style="background:#e67e22" data-i18n="fact_btn_gcd">${t('fact_btn_gcd')}</button>
+        <button id="btn-lcm" style="background:#2ecc71" data-i18n="fact_btn_lcm">${t('fact_btn_lcm')}</button>
+    </div>
+
+    <!-- 🔢 Goldbach Section -->
+    <div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;">${t('gold_sec')}</div>
+    <div class="fcards">
+        <div class="fcard">
+            <div class="fhead">${t('gold_title')}</div>
+            <div class="fbody">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                    <input id="gold-n" type="number" min="4" max="500000" step="2" placeholder="${t('gold_ph')}" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
+                    <button id="btn-gold" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_btn')}</button>
+                </div>
+                <div id="out-gold" style="font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
+            </div>
+        </div>
     </div>
     `;
 
+    // 🔒 Safe-by-default show function
     function show(content, err = false, allowHtml = false) {
         resBox.style.display = 'block';
-        resBox.textContent = content;
+        if (allowHtml) resBox.innerHTML = content;
+        else resBox.textContent = content;
         resBox.style.borderLeftColor = err ? '#ff5555' : 'var(--accent)';
-        requestAnimationFrame(() => {
-            if (window.MathJax?.typesetPromise) MathJax.typesetPromise([resBox]).catch(() => {});
-        });
+        if (window.MathJax?.typesetPromise) {
+            MathJax.typesetPromise([resBox]).catch(() => {});
+        }
     }
 
     const getVal = id => BigInt(document.getElementById(id).value.trim() || '0');
 
+    // Factorizare
     document.getElementById('btn-factor').addEventListener('click', () => {
         try {
             const a = getVal('fact-a');
@@ -72,6 +104,7 @@ export function initUI() {
         } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
+    // CMMDC
     document.getElementById('btn-gcd').addEventListener('click', () => {
         try {
             const a = getVal('fact-a');
@@ -82,6 +115,7 @@ export function initUI() {
         } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
+    // CMMMC
     document.getElementById('btn-lcm').addEventListener('click', () => {
         try {
             const a = getVal('fact-a');
@@ -92,5 +126,47 @@ export function initUI() {
         } catch (e) { show(`❌ ${e.message}`, true); }
     });
 
-    if (window.MathJax?.typesetPromise) requestAnimationFrame(() => MathJax.typesetPromise([ws]));
+    // 🔢 Goldbach (defensive: verificăm existența elementului)
+    const btnGold = document.getElementById('btn-gold');
+    if (btnGold) {
+        btnGold.addEventListener('click', () => {
+            const n = Number(document.getElementById('gold-n').value);
+            const out = document.getElementById('out-gold');
+            const btn = document.getElementById('btn-gold');
+            
+            if (!Number.isInteger(n) || n < 4 || n % 2 !== 0) {
+                return show(`⚠️ ${t('gold_err_even')}`, true);
+            }
+            if (n > MAX_GOLDBACH) {
+                return show(`⚠️ ${t('gold_err_limit')}`, true);
+            }
+
+            btn.disabled = true; btn.textContent = '⏳ Calculez...'; out.innerHTML = '';
+            
+            setTimeout(() => {
+                try {
+                    const pairs = [];
+                    for (let p = 2; p <= n / 2; p++) {
+                        if (isPrimeGB(p) && isPrimeGB(n - p)) {
+                            pairs.push([p, n - p]);
+                        }
+                    }
+                    if (pairs.length === 0) {
+                        show(`❌ ${t('gold_err_none')}`, true);
+                    } else {
+                        const latex = pairs.map(([a, b]) => `\\(${n} = ${a} + ${b}\\)`).join('<br>');
+                        show(`✅ ${t('gold_found')} ${pairs.length}:<br>${latex}`, false, true);
+                    }
+                } catch(e) {
+                    show(`❌ ${e.message}`, true);
+                }
+                btn.disabled = false; btn.textContent = t('gold_btn');
+                if (window.MathJax?.typesetPromise) MathJax.typesetPromise([out]).catch(() => {});
+            }, 50);
+        });
+    }
+
+    if (window.MathJax?.typesetPromise) {
+        requestAnimationFrame(() => MathJax.typesetPromise([ws]).catch(() => {}));
+    }
 }
