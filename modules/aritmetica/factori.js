@@ -63,30 +63,28 @@ export function initUI() {
     </div>
     <!-- ✅ Output local pentru primele 3 butoane -->
     <div id="out-top" style="margin-top:10px; font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
-
     <!-- 🔢 Goldbach Section -->
-    <div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;">${t('gold_sec')}</div>
-    <div class="fcards">
-        <div class="fcard">
-            <div class="fhead">${t('gold_title')}</div>
-            <div class="fbody">
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                    <input id="gold-n" type="number" min="4" max="500000" placeholder="${t('gold_ph')}" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
-                    <button id="btn-gold" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_btn')}</button>
-                </div>
-                <div style="display:flex; gap:12px; margin-bottom:8px; flex-wrap:wrap;">
-                    <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
-                        <input type="radio" name="gold-mode" value="2" checked> ${t('gold_mode_2')}
-                    </label>
-                    <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
-                        <input type="radio" name="gold-mode" value="3"> ${t('gold_mode_3')}
-                    </label>
-                </div>
-                <!-- ✅ Output local pentru Goldbach -->
-                <div id="out-gold" style="font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
+<div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;" data-i18n="gold_sec">${t('gold_sec')}</div>
+<div class="fcards">
+    <div class="fcard">
+        <div class="fhead" data-i18n="gold_title">${t('gold_title')}</div>
+        <div class="fbody">
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <input id="gold-n" type="number" min="4" max="500000" data-i18n-placeholder="gold_ph" placeholder="${t('gold_ph')}" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
+                <button id="btn-gold" data-i18n="gold_btn" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_btn')}</button>
             </div>
+            <div style="display:flex; gap:12px; margin-bottom:8px; flex-wrap:wrap;">
+                <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
+                    <input type="radio" name="gold-mode" value="2" checked> <span data-i18n="gold_mode_2">${t('gold_mode_2')}</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
+                    <input type="radio" name="gold-mode" value="3"> <span data-i18n="gold_mode_3">${t('gold_mode_3')}</span>
+                </label>
+            </div>
+            <div id="out-gold" style="font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
         </div>
     </div>
+</div>
     `;
 
     // 🔒 Helper securizat pentru output-uri locale
