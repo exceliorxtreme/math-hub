@@ -98,14 +98,24 @@ export function initUI() {
     }
 
     function showLocal(target, content, err = false, allowHtml = false) {
-        target.style.display = 'block';
-        if (allowHtml && !err) target.innerHTML = escapeHtml(content);
-        else target.textContent = content;
-        target.style.borderLeft = err ? '3px solid #e74c3c' : 'none';
-        target.style.paddingLeft = err ? '8px' : '0';
-        if (window.MathJax?.typesetPromise) MathJax.typesetPromise([target]).catch(() => {});
+    target.style.display = 'block';
+    
+    if (allowHtml && !err) {
+        // ✅ Permite HTML/MathJax doar când este explicit permis și nu e eroare
+        target.innerHTML = content;
+    } else {
+        // 🔒 Safe-by-default: textContent previne execuția HTML/JS accidental
+        // (escapeHtml nu e strict necesar aici, dar îl poți păstra ca redundanță defensivă)
+        target.textContent = String(content);
     }
-
+    
+    target.style.borderLeft = err ? '3px solid #e74c3c' : 'none';
+    target.style.paddingLeft = err ? '8px' : '0';
+    
+    if (window.MathJax?.typesetPromise) {
+        MathJax.typesetPromise([target]).catch(() => {});
+    }
+}
     const outTop = document.getElementById('out-top');
     const outGold = document.getElementById('out-gold');
     const getVal = id => BigInt(document.getElementById(id).value.trim() || '0');
