@@ -38,14 +38,16 @@ export function initUI() {
     <div class="description" data-i18n="prime_desc">${t('prime_desc')}</div>
     
     <!-- Mod: Limită sau Interval -->
-    <div style="display:flex; gap:12px; margin-bottom:10px; flex-wrap:wrap;">
-        <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
-            <input type="radio" name="prime-mode" value="limit" checked> ${t('prime_mode_limit')}
-        </label>
-        <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
-            <input type="radio" name="prime-mode" value="range"> ${t('prime_mode_range')}
-        </label>
-    </div>
+<div style="display:flex; gap:12px; margin-bottom:10px; flex-wrap:wrap;">
+    <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
+        <input type="radio" name="prime-mode" value="limit" checked> 
+        <span data-i18n="prime_mode_limit">${t('prime_mode_limit')}</span>
+    </label>
+    <label style="display:flex; align-items:center; gap:4px; font-size:0.9rem; color:var(--text); cursor:pointer;">
+        <input type="radio" name="prime-mode" value="range"> 
+        <span data-i18n="prime_mode_range">${t('prime_mode_range')}</span>
+    </label>
+</div>
 
     <!-- Input Limită -->
     <div id="prime-limit-group" class="input-group">
