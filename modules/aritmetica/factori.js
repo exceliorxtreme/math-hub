@@ -150,7 +150,7 @@ export function initUI() {
     <div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;" data-i18n="gold_sec">${t('gold_sec')}</div>
     <div class="fcards">
         <div class="fcard">
-            <div class="fhead" data-i18n="gold_title">${t('gold_title')} max = 500 000</div>
+            <div class="fhead" data-i18n="gold_title">${t('gold_title')}</div>
             <div class="fbody">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
                     <input id="gold-n" type="number" min="4" max="500000" placeholder="${t('gold_ph')}" data-i18n-placeholder="gold_ph" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
@@ -173,7 +173,7 @@ export function initUI() {
     <div class="fsec" style="background:linear-gradient(90deg,#16a085,#1abc9c); margin-top:15px;" data-i18n="gold_shield_sec">${t('gold_shield_sec')}</div>
     <div class="fcards">
         <div class="fcard">
-            <div class="fhead" data-i18n="gold_shield_title">${t('gold_shield_title')} max = 999 999 999 999</div>
+            <div class="fhead" data-i18n="gold_shield_title">${t('gold_shield_title')}</div>
             <div class="fbody">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
                     <input id="shield-2n" type="number" min="4" max="999999999999" step="2" placeholder="${t('gold_shield_ph')}" data-i18n-placeholder="gold_shield_ph" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
