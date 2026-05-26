@@ -63,6 +63,9 @@ math-hub/
 ├── resources.html
 ├── package.json
 └── readme.md
+|─ core/
+│   └── python_engine.py
+|   └──requirements.txt
 ```
 
 ---
@@ -126,7 +129,19 @@ vendor/mathjax/es5/tex-mml-chtml.js
 MathJax este distribuit sub licența Apache-2.0, iar licența este păstrată în `vendor/mathjax/LICENSE`.
 
 ---
+## ⚡ Arhitectură de Calcul Hibridă (Web vs. Native CPU)
 
+Acest proiect folosește o abordare duală pentru validarea descompunerilor Goldbach, separând calculul de explorare vizuală de cel de performanță extremă:
+
+1. **Interfața Web (JavaScript/BigInt):** Optimizată pentru vizualizări dinamice, generare de rapoarte LaTeX în timp real și analize de pînă la $10^7$. Include sisteme automate de protecție (guardrails) pentru a preveni blocarea thread-ului principal de execuție al browserului.
+2. **Motorul Core (Python/Numba JIT):** Dedicat "senzațiilor tari". Destinat explorărilor asimptotice de ordinul sutelor de milioane (ex: $503,222,000$). Execută alocări de biți direct în RAM și rulează algoritmii la viteza limbajului C prin compilare Just-In-Time pe mașina locală.
+
+### Rularea Motorului de Înaltă Performanță (Local)
+
+```bash
+cd core
+pip install -r requirements.txt
+python python_engine.py
 ## 🤖 AI helper
 
 Proiectul a fost dezvoltat și rafinat cu asistență AI:
