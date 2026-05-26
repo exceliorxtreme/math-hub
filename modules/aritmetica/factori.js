@@ -2,7 +2,7 @@
 import { t } from '../../utils/i18n.js';
 
 // ============================================================================
-// 🔢 HELPERS ARITMETICE (BigInt safe)
+// 🔢 HELPERS ARITMETICE (BigInt safe & Precision Fixed)
 // ============================================================================
 function gcd(a, b) {
     a = a < 0n ? -a : a;
@@ -20,11 +20,16 @@ function factorize(n) {
     if (n < 2) throw new Error(t('fact_err_min') || "Numărul trebuie să fie ≥ 2");
     const factors = [];
     let temp = n;
-    for (let p = 2; BigInt(p) * BigInt(p) <= temp; p++) {
-        if (temp % BigInt(p) === 0n) {
+    
+    // Corecție logică: p este BigInt pentru a preveni buclele infinite la numere mari
+    for (let p = 2n; p * p <= temp; p++) {
+        if (temp % p === 0n) {
             let count = 0;
-            while (temp % BigInt(p) === 0n) { temp /= BigInt(p); count++; }
-            factors.push({ p: BigInt(p), count });
+            while (temp % p === 0n) { 
+                temp /= p; 
+                count++; 
+            }
+            factors.push({ p: p, count });
         }
     }
     if (temp > 1n) factors.push({ p: temp, count: 1 });
@@ -32,7 +37,7 @@ function factorize(n) {
 }
 
 // ============================================================================
-// 🛡️ MILLER-RABIN (BigInt) pentru numere > 10¹⁰ (suport până la ~10¹²)
+// 🛡️ MILLER-RABIN (Determinism complet până la 3.3×10¹⁸)
 // ============================================================================
 function modPow(base, exp, mod) {
     let result = 1n;
@@ -50,10 +55,9 @@ function isPrimeMR(n) {
     if (n === 2n || n === 3n) return true;
     if (n % 2n === 0n) return false;
 
-    // Baze deterministe pentru n < 3.3×10¹⁸ (acoperă 19⁹ cu marjă)
-    const bases = [2n, 3n, 5n, 7n, 11n, 13n, 17n];
+    // Set complet de baze deterministe pentru eliminarea pseudoprimelor
+    const bases = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n];
 
-    // Scrie n-1 = d * 2^r
     let d = n - 1n, r = 0n;
     while (d % 2n === 0n) { d /= 2n; r++; }
 
@@ -71,13 +75,11 @@ function isPrimeMR(n) {
     return true;
 }
 
-// Wrapper inteligent: trial division pentru mic, Miller-Rabin pentru mare
 function isPrimeSmart(n) {
     if (typeof n === 'number') n = BigInt(n);
     return n < 10000000000n ? isPrimeGB(Number(n)) : isPrimeMR(n);
 }
 
-// Trial division optimizat 6k±1 pentru numere mici (< 10¹⁰)
 function isPrimeGB(n) {
     if (n < 2) return false;
     if (n === 2 || n === 3) return true;
@@ -88,7 +90,6 @@ function isPrimeGB(n) {
     return true;
 }
 
-// Găsește cel mai mare prim < n (pentru fereastra Goldbach Shield)
 function findLargestPrimeBelow(n) {
     let x = n % 2n === 0n ? n - 1n : n;
     while (x > 2n) {
@@ -98,7 +99,6 @@ function findLargestPrimeBelow(n) {
     return 2n;
 }
 
-// Generează scutul modular (prime mici) cu cache
 const SHIELD_CACHE = new Map();
 function generatePrimeShield(limit) {
     if (SHIELD_CACHE.has(limit)) return SHIELD_CACHE.get(limit);
@@ -110,7 +110,6 @@ function generatePrimeShield(limit) {
     return primes;
 }
 
-// Verifică dacă x este blocat de scutul modular
 function isBlockedByShield(x, shield) {
     for (const m of shield) {
         if (x !== m && x % m === 0n) return true;
@@ -119,7 +118,7 @@ function isBlockedByShield(x, shield) {
 }
 
 // ============================================================================
-// 🎨 UI & RENDER
+// 🎨 UI & RENDER STRUCTURATĂ ȘI SECURIZATĂ
 // ============================================================================
 export function initUI() {
     const ws = document.getElementById('workspace');
@@ -129,7 +128,6 @@ export function initUI() {
     <h2 data-i18n="fact_title">${t('fact_title')}</h2>
     <div class="description" data-i18n="fact_desc">${t('fact_desc')}</div>
 
-    <!-- Factorizare / CMMDC / CMMMC -->
     <div class="input-group">
         <label data-i18n="fact_lbl_a">${t('fact_lbl_a')}</label>
         <input id="fact-a" type="number" min="1" max="100000000000000" placeholder="Ex: 360">
@@ -146,7 +144,6 @@ export function initUI() {
     </div>
     <div id="out-top" style="margin-top:10px; font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
 
-    <!-- 🔢 Goldbach Clasic (2 & 3 prime) -->
     <div class="fsec" style="background:linear-gradient(90deg,#8e44ad,#6c3483); margin-top:15px;" data-i18n="gold_sec">${t('gold_sec')}</div>
     <div class="fcards">
         <div class="fcard">
@@ -169,16 +166,20 @@ export function initUI() {
         </div>
     </div>
 
-    <!-- 🛡️ Goldbach Shield (Expert Mode până la 19⁹) -->
     <div class="fsec" style="background:linear-gradient(90deg,#16a085,#1abc9c); margin-top:15px;" data-i18n="gold_shield_sec">${t('gold_shield_sec')}</div>
     <div class="fcards">
         <div class="fcard">
             <div class="fhead" data-i18n="gold_shield_title">${t('gold_shield_title')}</div>
             <div class="fbody">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                    <input id="shield-2n" type="number" min="4" max="999999999999" step="2" placeholder="${t('gold_shield_ph')}" data-i18n-placeholder="gold_shield_ph" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
+                    <input id="shield-2n" type="number" min="4" max="10000000" step="2" placeholder="Max: 10,000,000 (Limită Browser)" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
                     <button id="btn-shield" data-i18n="gold_shield_btn" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_shield_btn')}</button>
                 </div>
+                
+                <div style="margin: 10px 0; padding: 10px; border-radius: 6px; background: rgba(230,126,34,0.1); border: 1px dashed #e67e22; font-size: 0.85rem; color: #e67e22; line-height: 1.4;">
+                    🚀 <strong>Senzanții Tari?</strong> Pentru numere mari (până la $10^{12}$, cum ar fi 503,222,000), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>.
+                </div>
+
                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px; margin-bottom:10px;">
                     <label style="font-size:0.85rem; color:var(--text-muted);">
                         <span data-i18n="gold_shield_depth">${t('gold_shield_depth')}</span><br>
@@ -203,24 +204,6 @@ export function initUI() {
     </div>
     `;
 
-    // 🔒 Safe-by-default show function (CodeQL compliant)
-    function show(content, err = false, allowHtml = false) {
-        resBox.style.display = 'block';
-        if (err) {
-            resBox.textContent = String(content);
-        } else if (allowHtml) {
-            // Content generat intern, safe pentru MathJax
-            resBox.innerHTML = content;
-        } else {
-            resBox.textContent = String(content);
-        }
-        resBox.style.borderLeftColor = err ? '#ff5555' : 'var(--accent)';
-        if (window.MathJax?.typesetPromise) {
-            MathJax.typesetPromise([resBox]).catch(() => {});
-        }
-    }
-
-    // 🔒 showLocal pentru containere izolate (out-top, out-gold, out-gold-shield)
     function showLocal(target, content, err = false, allowHtml = false) {
         target.style.display = 'block';
         if (err) {
@@ -246,7 +229,6 @@ export function initUI() {
     // 🔢 EVENT LISTENERS
     // ========================================================================
 
-    // 🔢 Factorizare
     document.getElementById('btn-factor').addEventListener('click', () => {
         try {
             const a = getVal('fact-a');
@@ -258,7 +240,6 @@ export function initUI() {
         } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
     });
 
-    // ➗ CMMDC
     document.getElementById('btn-gcd').addEventListener('click', () => {
         try {
             const a = getVal('fact-a'), b = getVal('fact-b');
@@ -268,7 +249,6 @@ export function initUI() {
         } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
     });
 
-    // 📐 CMMMC
     document.getElementById('btn-lcm').addEventListener('click', () => {
         try {
             const a = getVal('fact-a'), b = getVal('fact-b');
@@ -278,7 +258,6 @@ export function initUI() {
         } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
     });
 
-    // 🔢 Goldbach Clasic (2 sau 3 prime)
     const btnGold = document.getElementById('btn-gold');
     if (btnGold && outGold) {
         btnGold.addEventListener('click', () => {
@@ -339,7 +318,6 @@ export function initUI() {
         });
     }
 
-    // 🛡️ Goldbach Shield (Expert Mode cu Miller-Rabin)
     const btnShield = document.getElementById('btn-shield');
     if (btnShield && outShield) {
         btnShield.addEventListener('click', async () => {
@@ -349,16 +327,17 @@ export function initUI() {
             const btn = document.getElementById('btn-shield');
 
             if (bariera < 4n || bariera % 2n !== 0n) {
-                return showLocal(outShield, `⚠️ ${t('gold_shield_err_even')}`, true);
+                return showLocal(outShield, `⚠️ Numărul trebuie să fie par și ≥ 4`, true);
             }
-            if (bariera > 999999999999n) {
-                return showLocal(outShield, `⚠️ ${t('gold_shield_err_limit')}`, true);
+            
+            // 🛡️ SECURITY GUARDRAIL: Blocăm strict peste 10.000.000 în browser
+            if (bariera > 10000000n) {
+                return showLocal(outShield, `⚠️ Valoarea ${bariera.toLocaleString()} depășește limita recomandată pentru browser. Pentru a procesa sute de milioane instantaneu, folosește scriptul Python local dedicat din folderul 'core/python_engine.py'.`, true);
             }
 
             btn.disabled = true; btn.textContent = '⏳ ' + t('gold_shield_calc');
             outShield.innerHTML = '';
 
-            // Chunking pentru UX fluid la numere mari
             const t0 = performance.now();
             const p_margine = findLargestPrimeBelow(bariera);
             const shield = generatePrimeShield(shieldLimit);
@@ -366,32 +345,37 @@ export function initUI() {
             let localPairs = [], oddCandidates = 0n, blocked = 0n;
             let regim = "local";
 
-            // Scanare locală [p, 2n] cu chunking
             const CHUNK = 1000n;
-            for (let x = p_margine; x <= bariera; x += 2n) {
+            let current_x = p_margine;
+            
+            // Algoritmul descendent asincron controlat
+            while (current_x >= bariera / 2n) {
                 oddCandidates++;
-                if (isBlockedByShield(x, shield)) {
+                if (isBlockedByShield(current_x, shield)) {
                     blocked++;
                 } else {
-                    const comp = bariera - x;
-                    if (isPrimeSmart(x) && isPrimeSmart(comp) && localPairs.length < pairLimit) {
-                        localPairs.push({ a: x, b: comp });
+                    const comp = bariera - current_x;
+                    if (isPrimeSmart(current_x) && isPrimeSmart(comp)) {
+                        if (localPairs.length < pairLimit) {
+                            localPairs.push({ a: current_x, b: comp });
+                        }
                     }
                 }
-                // Cedează controlul UI-ului la fiecare CHUNK iterații
+                
+                current_x -= 2n;
+                
                 if (oddCandidates % CHUNK === 0n) {
                     await new Promise(r => setTimeout(r, 0));
                 }
             }
 
-            // Extindere dacă e nevoie
             if (localPairs.length < pairLimit) {
                 regim = localPairs.length === 0 ? "extern" : "mixt";
-                let x = p_margine - 2n;
+                let x = (bariera / 2n) - (bariera / 2n % 2n === 0n ? 1n : 2n);
                 while (x > 2n && localPairs.length < pairLimit) {
                     const comp = bariera - x;
                     if (isPrimeSmart(x) && isPrimeSmart(comp)) {
-                        localPairs.push({ a: x, b: comp, ext: true });
+                        localPairs.push({ a: comp, b: x, ext: true });
                     }
                     x -= 2n;
                 }
@@ -400,7 +384,6 @@ export function initUI() {
             const t1 = performance.now();
             const time = ((t1 - t0) / 1000).toFixed(4);
 
-            // Randare metrici (monospace, culori semantice)
             let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
             html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
             html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_p')}</span><strong>${p_margine.toLocaleString()}</strong></div>`;
@@ -412,7 +395,6 @@ export function initUI() {
             html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span><strong>${time}s</strong></div>`;
             html += `</div>`;
 
-            // Listează perechile
             if (localPairs.length > 0) {
                 html += `<div style="margin-top:8px;"><strong>${t('gold_shield_pairs_title')}:</strong><br>`;
                 localPairs.forEach(p => {
@@ -423,7 +405,6 @@ export function initUI() {
                 html += `</div>`;
             }
 
-            // Concluzie
             const conclKey = regim === 'local' ? 'gold_shield_concl_local' : 'gold_shield_concl_ext';
             html += `<div style="margin-top:10px; padding:8px; border-radius:6px; background:rgba(74,222,128,0.1); border:1px solid var(--success); color:var(--success); font-weight:500;">${t(conclKey)}</div>`;
 
@@ -432,7 +413,6 @@ export function initUI() {
         });
     }
 
-    // MathJax sync final
     if (window.MathJax?.typesetPromise) {
         requestAnimationFrame(() => MathJax.typesetPromise([ws]).catch(() => {}));
     }
