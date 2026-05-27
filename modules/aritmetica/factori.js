@@ -172,7 +172,7 @@ export function initUI() {
             <div class="fhead" data-i18n="gold_shield_title">${t('gold_shield_title')}</div>
             <div class="fbody">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                    <input id="shield-2n" type="number" min="4" max="10000000" step="2" placeholder="Max: 10,000,000 (Limită Browser)" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
+                    <input id="shield-2n" type="number" min="4" max="10000000000" step="2" placeholder="Max: 10,000,000,000 (Browser)" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
                     <button id="btn-shield" data-i18n="gold_shield_btn" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_shield_btn')}</button>
                 </div>
                 
@@ -398,7 +398,7 @@ const startPoint = bariera - BigInt(windowSize);
 
     
     let regim = localPairs.length === 0 ? "extern" : (localPairs.length < pairLimit ? "mixt" : "local");
-    const p_margine = findLargestPrimeBelow(bariera); // Păstrat pentru metricile tale
+    const p_margine = findLargestPrimeBelow(bariera); 
 
     let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
     html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
