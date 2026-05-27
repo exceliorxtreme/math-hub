@@ -318,100 +318,112 @@ export function initUI() {
         });
     }
 
-    const btnShield = document.getElementById('btn-shield');
-    if (btnShield && outShield) {
-        btnShield.addEventListener('click', async () => {
-            const bariera = BigInt(document.getElementById('shield-2n').value);
-            const shieldLimit = Number(document.getElementById('shield-depth').value);
-            const pairLimit = Number(document.getElementById('shield-limit').value);
-            const btn = document.getElementById('btn-shield');
+    document.getElementById('btn-shield').addEventListener('click', async () => {
+    const bariera = BigInt(document.getElementById('shield-2n').value);
+    const shieldLimit = Number(document.getElementById('shield-depth').value);
+    const pairLimit = Number(document.getElementById('shield-limit').value);
+    const btn = document.getElementById('btn-shield');
 
-            if (bariera < 4n || bariera % 2n !== 0n) {
-                return showLocal(outShield, `⚠️ Numărul trebuie să fie par și ≥ 4`, true);
-            }
-            
-            // 🛡️ SECURITY GUARDRAIL: Blocăm strict peste 10.000.000 în browser
-            if (bariera > 10000000n) {
-                return showLocal(outShield, `⚠️ Valoarea ${bariera.toLocaleString()} depășește limita recomandată pentru browser. Pentru a procesa sute de milioane instantaneu, folosește scriptul Python local dedicat din folderul 'core/python_engine.py'.`, true);
-            }
-
-            btn.disabled = true; btn.textContent = '⏳ ' + t('gold_shield_calc');
-            outShield.innerHTML = '';
-
-            const t0 = performance.now();
-            const p_margine = findLargestPrimeBelow(bariera);
-            const shield = generatePrimeShield(shieldLimit);
-
-            let localPairs = [], oddCandidates = 0n, blocked = 0n;
-            let regim = "local";
-
-            const CHUNK = 1000n;
-            let current_x = p_margine;
-            
-            // Algoritmul descendent asincron controlat
-            while (current_x >= bariera / 2n) {
-                oddCandidates++;
-                if (isBlockedByShield(current_x, shield)) {
-                    blocked++;
-                } else {
-                    const comp = bariera - current_x;
-                    if (isPrimeSmart(current_x) && isPrimeSmart(comp)) {
-                        if (localPairs.length < pairLimit) {
-                            localPairs.push({ a: current_x, b: comp });
-                        }
-                    }
-                }
-                
-                current_x -= 2n;
-                
-                if (oddCandidates % CHUNK === 0n) {
-                    await new Promise(r => setTimeout(r, 0));
-                }
-            }
-
-            if (localPairs.length < pairLimit) {
-                regim = localPairs.length === 0 ? "extern" : "mixt";
-                let x = (bariera / 2n) - (bariera / 2n % 2n === 0n ? 1n : 2n);
-                while (x > 2n && localPairs.length < pairLimit) {
-                    const comp = bariera - x;
-                    if (isPrimeSmart(x) && isPrimeSmart(comp)) {
-                        localPairs.push({ a: comp, b: x, ext: true });
-                    }
-                    x -= 2n;
-                }
-            }
-
-            const t1 = performance.now();
-            const time = ((t1 - t0) / 1000).toFixed(4);
-
-            let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_p')}</span><strong>${p_margine.toLocaleString()}</strong></div>`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_win')}</span><strong class="accent">${(bariera - p_margine).toLocaleString()}</strong></div>`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_shield')}</span><strong class="info">${shield.length} prime</strong></div>`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_mode')}</span><strong class="${regim === 'local' ? 'success' : 'info'}">${t('gold_shield_mode_' + regim)}</strong></div>`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_odd')}</span><strong>${oddCandidates.toLocaleString()}</strong></div>`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_blocked')}</span><strong class="warning">${blocked.toLocaleString()}</strong></div>`;
-            html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span><strong>${time}s</strong></div>`;
-            html += `</div>`;
-
-            if (localPairs.length > 0) {
-                html += `<div style="margin-top:8px;"><strong>${t('gold_shield_pairs_title')}:</strong><br>`;
-                localPairs.forEach(p => {
-                    const tag = p.ext ? `[${t('gold_shield_tag_ext')}]` : `[${t('gold_shield_tag_loc')}]`;
-                    const cls = p.ext ? 'style="color:var(--info)"' : '';
-                    html += `<div ${cls}>${tag} ${bariera.toLocaleString()} = ${p.a.toLocaleString()} + ${p.b.toLocaleString()}</div>`;
-                });
-                html += `</div>`;
-            }
-
-            const conclKey = regim === 'local' ? 'gold_shield_concl_local' : 'gold_shield_concl_ext';
-            html += `<div style="margin-top:10px; padding:8px; border-radius:6px; background:rgba(74,222,128,0.1); border:1px solid var(--success); color:var(--success); font-weight:500;">${t(conclKey)}</div>`;
-
-            showLocal(outShield, html, false, true);
-            btn.disabled = false; btn.textContent = t('gold_shield_btn');
-        });
+    if (bariera < 4n || bariera % 2n !== 0n) {
+        return showLocal(outShield, `⚠️ Numărul trebuie să fie par și ≥ 4`, true);
     }
+    
+    if (bariera > 10000000000n) { 
+    return showLocal(outShield, `⚠️ Valoarea depășește limita absolută de 10 miliarde a aplicației.`, true);
+}
+
+    btn.disabled = true; btn.textContent = '⏳ ' + t('gold_shield_calc');
+    outShield.innerHTML = '';
+
+    const t0 = performance.now();
+
+    // 1. Definim o fereastră de scanare stabilă sub bariera (ex: ultimele 500.000 de unități)
+    const windowSize = bariera > 1000000n ? 1000000 : Number(bariera);
+const startPoint = bariera - BigInt(windowSize);
+    
+    // 2. Generăm scutul de baze pentru eliminare (Ciurul de bază)
+    const limitRadical = Math. someLimit || Math.sqrt(Number(bariera));
+    const shield = generatePrimeShield(Math.max(shieldLimit, Math.floor(limitRadical)));
+
+    // 3. Alocăm o mască de biți rapidă în memorie pentru fereastră
+    // bitSieve[i] reprezintă starea numărului (startPoint + BigInt(i))
+    const bitSieve = new Uint8Array(windowSize + 1);
+    bitSieve.fill(1); // Presupunem inițial că toate sunt prime
+
+    // 4. Ciuruirea Segmentată a ferestrei (Execuție hardware ultra-rapidă)
+    for (const p of shield) {
+        const p_bi = BigInt(p);
+        // Găsim primul multiplu al lui p care cade în interiorul ferestrei noastre
+        let startModulo = startPoint % p_bi;
+        let firstMultiple = startModulo === 0n ? startPoint : startPoint + (p_bi - startModulo);
+        
+        if (firstMultiple === p_bi) firstMultiple += p_bi; // Să nu eliminăm numărul prim în sine
+
+        // Eliminăm multiplii lui p din fereastră în pași de adunare (fără modPow sau modulo!)
+        let startIdx = Number(firstMultiple - startPoint);
+        for (let idx = startIdx; idx <= windowSize; idx += Number(p_bi)) {
+            bitSieve[idx] = 0;
+        }
+    }
+
+    // 5. Colectarea instantanee a perechilor Goldbach prin potrivire în vector
+    let localPairs = [];
+    let oddCandidates = 0n;
+    let blocked = 0n;
+
+    // Scanăm descrescător din vârful ferestrei
+    for (let offset = windowSize; offset >= 0; offset--) {
+        const current_x = startPoint + BigInt(offset);
+        if (current_x >= bariera || current_x % 2n === 0n || current_x < 2n) continue;
+
+        oddCandidates++;
+
+        // Verificăm starea în ciurul nostru local segmentat
+        if (bitSieve[offset] === 0) {
+            blocked++;
+        } else {
+            // Dacă x este prim în fereastră, verificăm complementul
+            const comp = bariera - current_x;
+            
+            // Pentru complement folosim testul rapid din cache sau cel inteligent
+            if (isPrimeSmart(comp)) {
+                localPairs.push({ a: current_x, b: comp });
+                if (localPairs.length >= pairLimit) break;
+            }
+        }
+    }
+
+    const t1 = performance.now();
+    const time = ((t1 - t0) / 1000).toFixed(4);
+
+    
+    let regim = localPairs.length === 0 ? "extern" : (localPairs.length < pairLimit ? "mixt" : "local");
+    const p_margine = findLargestPrimeBelow(bariera); // Păstrat pentru metricile tale
+
+    let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
+    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
+    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Fereastră Segmentată Activă</span><strong class="accent">${windowSize.toLocaleString()} unități</strong></div>`;
+    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Viteză Filtrare</span><strong class="success">Ciur local activat</strong></div>`;
+    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_mode')}</span><strong class="success">${t('gold_shield_mode_' + regim)}</strong></div>`;
+    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Candidați verificați</span><strong>${oddCandidates.toLocaleString()}</strong></div>`;
+    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_blocked')}</span><strong class="warning">${blocked.toLocaleString()}</strong></div>`;
+    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span><strong>${time}s</strong></div>`;
+    html += `</div>`;
+
+    if (localPairs.length > 0) {
+        html += `<div style="margin-top:8px;"><strong>${t('gold_shield_pairs_title')}:</strong><br>`;
+        localPairs.forEach(p => {
+            html += `<div>[⚡ Ciur Rapid] ${bariera.toLocaleString()} = ${p.a.toLocaleString()} + ${p.b.toLocaleString()}</div>`;
+        });
+        html += `</div>`;
+    }
+
+    const conclKey = regim === 'local' ? 'gold_shield_concl_local' : 'gold_shield_concl_ext';
+    html += `<div style="margin-top:10px; padding:8px; border-radius:6px; background:rgba(74,222,128,0.1); border:1px solid var(--success); color:var(--success); font-weight:500;">${t(conclKey)}</div>`;
+
+    showLocal(outShield, html, false, true);
+    btn.disabled = false; btn.textContent = t('gold_shield_btn');
+});
 
     if (window.MathJax?.typesetPromise) {
         requestAnimationFrame(() => MathJax.typesetPromise([ws]).catch(() => {}));
