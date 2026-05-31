@@ -484,6 +484,16 @@ gold_shield_tag_loc: "Local",
 gold_shield_tag_ext: "Extern",
 gold_shield_concl_local: "✓ Scutul a filtrat eficient: doar breșele corecte au rămas deschise.",
 gold_shield_concl_ext: "✓ Saturație locală confirmată; soluții completate din exterior.",
+"gold_shield_max_err": "⚠️ Valoarea depășește limita absolută de 10 miliarde a aplicației.",
+  "gold_shield_input_err": "⚠️ Numărul trebuie să fie par și ≥ 4",
+  "gold_shield_active_window": "Fereastră Segmentată Activă",
+  "gold_shield_units": "unități",
+  "gold_shield_size": "Dimensiune Scut (Prime vector)",
+  "gold_shield_primes": "numere prime",
+  "gold_shield_speed": "Viteză Filtrare",
+  "gold_shield_local_sieve": "Ciur local activat",
+  "gold_shield_candidates": "Candidați verificați",
+  "gold_shield_python_notice": "🚀 <strong>Senzații Tari?</strong> Pentru numere mari (până la $10^{12}$), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>.",
 
 
 
@@ -974,6 +984,16 @@ gold_shield_tag_loc: "Local",
 gold_shield_tag_ext: "External",
 gold_shield_concl_local: "✓ Shield filtered efficiently: only correct breaches remained open.",
 gold_shield_concl_ext: "✓ Local saturation confirmed; solutions completed from outside.",
+"gold_shield_max_err": "⚠️ Value exceeds the absolute application limit of 10 billion.",
+  "gold_shield_input_err": "⚠️ The number must be even and ≥ 4",
+  "gold_shield_active_window": "Active Segmented Window",
+  "gold_shield_units": "units",
+  "gold_shield_size": "Shield Size (Prime vector)",
+  "gold_shield_primes": "prime numbers",
+  "gold_shield_speed": "Filtering Speed",
+  "gold_shield_local_sieve": "Local sieve activated",
+  "gold_shield_candidates": "Verified candidates",
+  "gold_shield_python_notice": "🚀 <strong>Thrills?</strong> For large numbers (up to $10^{12}$), the browser will freeze. Use the ultra-fast native JIT-compiled Python engine included in the project folder: <code>core/python_engine.py</code>.",
 
     }
 };
