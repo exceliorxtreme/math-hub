@@ -21,7 +21,12 @@ function factorize(n) {
     const factors = [];
     let temp = n;
     
-    // Corecție logică: p este BigInt pentru a preveni buclele infinite la numere mari
+    // Optimizare: Dacă numărul este deja prim, evităm bucla for destructivă
+    if (isPrimeSmart(temp)) {
+        factors.push({ p: temp, count: 1 });
+        return factors;
+    }
+    
     for (let p = 2n; p * p <= temp; p++) {
         if (temp % p === 0n) {
             let count = 0;
@@ -31,6 +36,8 @@ function factorize(n) {
             }
             factors.push({ p: p, count });
         }
+        // Fail-safe pentru a preveni blocarea totală în UI pe numere extrem de mari
+        if (p > 500000n && isPrimeSmart(temp)) break;
     }
     if (temp > 1n) factors.push({ p: temp, count: 1 });
     return factors;
@@ -55,7 +62,6 @@ function isPrimeMR(n) {
     if (n === 2n || n === 3n) return true;
     if (n % 2n === 0n) return false;
 
-    // Set complet de baze deterministe pentru eliminarea pseudoprimelor
     const bases = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n];
 
     let d = n - 1n, r = 0n;
@@ -110,19 +116,12 @@ function generatePrimeShield(limit) {
     return primes;
 }
 
-function isBlockedByShield(x, shield) {
-    for (const m of shield) {
-        if (x !== m && x % m === 0n) return true;
-    }
-    return false;
-}
-
 // ============================================================================
-// 🎨 UI & RENDER STRUCTURATĂ ȘI SECURIZATĂ
+// 🎨 UI & RENDER STRUCTURATĂ ȘI SECURIZATĂ (Fără elemente redundante)
 // ============================================================================
 export function initUI() {
     const ws = document.getElementById('workspace');
-    const resBox = document.getElementById('result');
+    if (!ws) return;
 
     ws.innerHTML = `
     <h2 data-i18n="fact_title">${t('fact_title')}</h2>
@@ -172,32 +171,14 @@ export function initUI() {
             <div class="fhead" data-i18n="gold_shield_title">${t('gold_shield_title')}</div>
             <div class="fbody">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                    <input id="shield-2n" type="number" min="4" max="10000000000" step="2" placeholder="Max: 10,000,000,000 (Browser)" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
+                    <input id="shield-2n" type="number" min="4" max="10000000" step="2" placeholder="Max: 10,000,000 (Limită Browser)" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
                     <button id="btn-shield" data-i18n="gold_shield_btn" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_shield_btn')}</button>
                 </div>
                 
                 <div style="margin: 10px 0; padding: 10px; border-radius: 6px; background: rgba(230,126,34,0.1); border: 1px dashed #e67e22; font-size: 0.85rem; color: #e67e22; line-height: 1.4;">
-                    🚀 <strong>Senzanții Tari?</strong> Pentru numere mari (până la $10^{12}$, cum ar fi 503,222,000), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>.
+                    🚀 <strong>Senzații Tari?</strong> Pentru numere mari (până la $10^{12}$), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>.
                 </div>
-
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px; margin-bottom:10px;">
-                    <label style="font-size:0.85rem; color:var(--text-muted);">
-                        <span data-i18n="gold_shield_depth">${t('gold_shield_depth')}</span><br>
-                        <select id="shield-depth" style="width:100%; padding:4px; background:var(--card-bg); border:1px solid var(--border); border-radius:4px; color:var(--text);">
-                            <option value="5">3 prime (p&lt;5)</option>
-                            <option value="25" selected>9 prime (p&lt;25)</option>
-                            <option value="100">25 prime (p&lt;100)</option>
-                        </select>
-                    </label>
-                    <label style="font-size:0.85rem; color:var(--text-muted);">
-                        <span data-i18n="gold_shield_limit">${t('gold_shield_limit')}</span><br>
-                        <select id="shield-limit" style="width:100%; padding:4px; background:var(--card-bg); border:1px solid var(--border); border-radius:4px; color:var(--text);">
-                            <option value="5" selected>5 perechi</option>
-                            <option value="20">20 perechi</option>
-                            <option value="50">50 perechi</option>
-                        </select>
-                    </label>
-                </div>
+                
                 <div id="out-gold-shield" style="font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
             </div>
         </div>
@@ -205,6 +186,7 @@ export function initUI() {
     `;
 
     function showLocal(target, content, err = false, allowHtml = false) {
+        if (!target) return;
         target.style.display = 'block';
         if (err) {
             target.textContent = String(content);
@@ -216,11 +198,15 @@ export function initUI() {
         target.style.borderLeft = err ? '3px solid #e74c3c' : 'none';
         target.style.paddingLeft = err ? '8px' : '0';
         if (window.MathJax?.typesetPromise) {
-            MathJax.typesetPromise([target]).catch(() => {});
+            window.MathJax.typesetPromise([target]).catch(() => {});
         }
     }
 
-    const getVal = id => BigInt(document.getElementById(id).value.trim() || '0');
+    const getVal = id => {
+        const el = document.getElementById(id);
+        return BigInt(el ? el.value.trim() || '0' : '0');
+    };
+    
     const outTop = document.getElementById('out-top');
     const outGold = document.getElementById('out-gold');
     const outShield = document.getElementById('out-gold-shield');
@@ -263,7 +249,6 @@ export function initUI() {
         btnGold.addEventListener('click', () => {
             const n = BigInt(document.getElementById('gold-n').value);
             const mode = document.querySelector('input[name="gold-mode"]:checked').value;
-            const btn = document.getElementById('btn-gold');
 
             const min = mode === '2' ? 4n : 7n;
             const isEven = n % 2n === 0n;
@@ -276,7 +261,7 @@ export function initUI() {
                 return showLocal(outGold, `⚠️ ${t('gold_err_limit')}`, true);
             }
 
-            btn.disabled = true; btn.textContent = '⏳ ' + t('gold_shield_calc');
+            btnGold.disabled = true; btnGold.textContent = '⏳ ' + t('gold_shield_calc');
             outGold.innerHTML = '';
 
             setTimeout(() => {
@@ -285,16 +270,16 @@ export function initUI() {
                     const MAX_LIMIT = 100;
                     if (mode === '2') {
                         for (let p = 2n; p <= n / 2n && results.length < MAX_LIMIT; p++) {
-                            if (isPrimeGB(Number(p)) && isPrimeGB(Number(n - p))) {
+                            if (isPrimeSmart(p) && isPrimeSmart(n - p)) {
                                 results.push([p, n - p]);
                             }
                         }
                     } else {
                         for (let p = 2n; p <= n - 4n && results.length < MAX_LIMIT; p++) {
-                            if (!isPrimeGB(Number(p))) continue;
+                            if (!isPrimeSmart(p)) continue;
                             const rest = n - p;
                             for (let q = 2n; q <= rest / 2n && results.length < MAX_LIMIT; q++) {
-                                if (isPrimeGB(Number(q)) && isPrimeGB(Number(rest - q))) {
+                                if (isPrimeSmart(q) && isPrimeSmart(rest - q)) {
                                     results.push([p, q, rest - q]);
                                     break;
                                 }
@@ -313,119 +298,113 @@ export function initUI() {
                 } catch(e) {
                     showLocal(outGold, `❌ ${e.message}`, true);
                 }
-                btn.disabled = false; btn.textContent = t('gold_btn');
+                btnGold.disabled = false; btnGold.textContent = t('gold_btn');
             }, 50);
         });
     }
 
     document.getElementById('btn-shield').addEventListener('click', async () => {
-    const bariera = BigInt(document.getElementById('shield-2n').value);
-    const shieldLimit = Number(document.getElementById('shield-depth').value);
-    const pairLimit = Number(document.getElementById('shield-limit').value);
-    const btn = document.getElementById('btn-shield');
+        const bariera = BigInt(document.getElementById('shield-2n').value);
+        const btn = document.getElementById('btn-shield');
 
-    if (bariera < 4n || bariera % 2n !== 0n) {
-        return showLocal(outShield, `⚠️ Numărul trebuie să fie par și ≥ 4`, true);
-    }
-    
-    if (bariera > 10000000000n) { 
-    return showLocal(outShield, `⚠️ Valoarea depășește limita absolută de 10 miliarde a aplicației.`, true);
-}
+        // Constante interne auto-calculate
+        const PAIR_LIMIT = 10; 
 
-    btn.disabled = true; btn.textContent = '⏳ ' + t('gold_shield_calc');
-    outShield.innerHTML = '';
-
-    const t0 = performance.now();
-
-    // 1. Definim o fereastră de scanare stabilă sub bariera (ex: ultimele 500.000 de unități)
-    const windowSize = bariera > 1000000n ? 1000000 : Number(bariera);
-const startPoint = bariera - BigInt(windowSize);
-    
-    // 2. Generăm scutul de baze pentru eliminare (Ciurul de bază)
-    const limitRadical = Math. someLimit || Math.sqrt(Number(bariera));
-    const shield = generatePrimeShield(Math.max(shieldLimit, Math.floor(limitRadical)));
-
-    // 3. Alocăm o mască de biți rapidă în memorie pentru fereastră
-    // bitSieve[i] reprezintă starea numărului (startPoint + BigInt(i))
-    const bitSieve = new Uint8Array(windowSize + 1);
-    bitSieve.fill(1); // Presupunem inițial că toate sunt prime
-
-    // 4. Ciuruirea Segmentată a ferestrei (Execuție hardware ultra-rapidă)
-    for (const p of shield) {
-        const p_bi = BigInt(p);
-        // Găsim primul multiplu al lui p care cade în interiorul ferestrei noastre
-        let startModulo = startPoint % p_bi;
-        let firstMultiple = startModulo === 0n ? startPoint : startPoint + (p_bi - startModulo);
-        
-        if (firstMultiple === p_bi) firstMultiple += p_bi; // Să nu eliminăm numărul prim în sine
-
-        // Eliminăm multiplii lui p din fereastră în pași de adunare (fără modPow sau modulo!)
-        let startIdx = Number(firstMultiple - startPoint);
-        for (let idx = startIdx; idx <= windowSize; idx += Number(p_bi)) {
-            bitSieve[idx] = 0;
+        if (bariera < 4n || bariera % 2n !== 0n) {
+            return showLocal(outShield, `⚠️ Numărul trebuie să fie par și ≥ 4`, true);
         }
-    }
+        
+        if (bariera > 10000000000n) { 
+            return showLocal(outShield, `⚠️ Valoarea depășește limita absolută de 10 miliarde a aplicației.`, true);
+        }
 
-    // 5. Colectarea instantanee a perechilor Goldbach prin potrivire în vector
-    let localPairs = [];
-    let oddCandidates = 0n;
-    let blocked = 0n;
+        btn.disabled = true; btn.textContent = '⏳ ' + t('gold_shield_calc');
+        outShield.innerHTML = '';
 
-    // Scanăm descrescător din vârful ferestrei
-    for (let offset = windowSize; offset >= 0; offset--) {
-        const current_x = startPoint + BigInt(offset);
-        if (current_x >= bariera || current_x % 2n === 0n || current_x < 2n) continue;
+        const t0 = performance.now();
 
-        oddCandidates++;
+        const windowSize = bariera > 1000000n ? 1000000 : Number(bariera);
+        const startPoint = bariera - BigInt(windowSize);
+        
+        // Calcul automat și sigur al radicalului (Matematic perfect pentru acuratețea ciurului)
+        const limitRadical = Math.floor(Math.sqrt(Number(bariera)));
+        const shield = generatePrimeShield(limitRadical);
 
-        // Verificăm starea în ciurul nostru local segmentat
-        if (bitSieve[offset] === 0) {
-            blocked++;
-        } else {
-            // Dacă x este prim în fereastră, verificăm complementul
-            const comp = bariera - current_x;
+        const bitSieve = new Uint8Array(windowSize + 1);
+        bitSieve.fill(1); 
+
+        // Filtrare ciur segmentat local
+        for (const p of shield) {
+            const p_bi = BigInt(p);
+            let startModulo = startPoint % p_bi;
+            let firstMultiple = startModulo === 0n ? startPoint : startPoint + (p_bi - startModulo);
             
-            // Pentru complement folosim testul rapid din cache sau cel inteligent
-            if (isPrimeSmart(comp)) {
-                localPairs.push({ a: current_x, b: comp });
-                if (localPairs.length >= pairLimit) break;
+            if (firstMultiple === p_bi) firstMultiple += p_bi; 
+
+            let startIdx = Number(firstMultiple - startPoint);
+            if (startIdx < 0) startIdx = 0; 
+            
+            for (let idx = startIdx; idx <= windowSize; idx += Number(p_bi)) {
+                bitSieve[idx] = 0;
             }
         }
-    }
 
-    const t1 = performance.now();
-    const time = ((t1 - t0) / 1000).toFixed(4);
+        let localPairs = [];
+        let oddCandidates = 0n;
+        let blocked = 0n;
 
-    
-    let regim = localPairs.length === 0 ? "extern" : (localPairs.length < pairLimit ? "mixt" : "local");
-    const p_margine = findLargestPrimeBelow(bariera); 
+        for (let offset = windowSize; offset >= 0; offset--) {
+            const current_x = startPoint + BigInt(offset);
+            if (current_x >= bariera || current_x % 2n === 0n || current_x < 2n) continue;
 
-    let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
-    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
-    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Fereastră Segmentată Activă</span><strong class="accent">${windowSize.toLocaleString()} unități</strong></div>`;
-    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Viteză Filtrare</span><strong class="success">Ciur local activat</strong></div>`;
-    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_mode')}</span><strong class="success">${t('gold_shield_mode_' + regim)}</strong></div>`;
-    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Candidați verificați</span><strong>${oddCandidates.toLocaleString()}</strong></div>`;
-    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_blocked')}</span><strong class="warning">${blocked.toLocaleString()}</strong></div>`;
-    html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span><strong>${time}s</strong></div>`;
-    html += `</div>`;
+            oddCandidates++;
 
-    if (localPairs.length > 0) {
-        html += `<div style="margin-top:8px;"><strong>${t('gold_shield_pairs_title')}:</strong><br>`;
-        localPairs.forEach(p => {
-            html += `<div>[⚡ Ciur Rapid] ${bariera.toLocaleString()} = ${p.a.toLocaleString()} + ${p.b.toLocaleString()}</div>`;
-        });
+            if (bitSieve[offset] === 0) {
+                blocked++;
+            } else {
+                const comp = bariera - current_x;
+                if (isPrimeSmart(comp)) {
+                    localPairs.push({ a: current_x, b: comp });
+                    if (localPairs.length >= PAIR_LIMIT) break;
+                }
+            }
+        }
+
+        const t1 = performance.now();
+        const time = ((t1 - t0) / 1000).toFixed(4);
+
+        let regim = localPairs.length === 0 ? "extern" : (localPairs.length < PAIR_LIMIT ? "mixt" : "local");
+
+        let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Fereastră Segmentată Activă</span><strong class="accent">${windowSize.toLocaleString()} unități</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Dimensiune Scut (Prime vector)</span><strong class="success">${shield.length} numere prime (p ≤ ${limitRadical})</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_mode')}</span><strong class="success">${t('gold_shield_mode_' + regim)}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Candidați verificați</span><strong>${oddCandidates.toLocaleString()}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_blocked')}</span><strong class="warning">${blocked.toLocaleString()}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span><strong>${time}s</strong></div>`;
         html += `</div>`;
-    }
 
-    const conclKey = regim === 'local' ? 'gold_shield_concl_local' : 'gold_shield_concl_ext';
-    html += `<div style="margin-top:10px; padding:8px; border-radius:6px; background:rgba(74,222,128,0.1); border:1px solid var(--success); color:var(--success); font-weight:500;">${t(conclKey)}</div>`;
+        if (localPairs.length > 0) {
+            html += `<div style="margin-top:8px;"><strong>${t('gold_shield_pairs_title')}:</strong><br>`;
+            localPairs.forEach(p => {
+                html += `<div>[⚡ Ciur Rapid] ${bariera.toLocaleString()} = ${p.a.toLocaleString()} + ${p.b.toLocaleString()}</div>`;
+            });
+            html += `</div>`;
+        }
 
-    showLocal(outShield, html, false, true);
-    btn.disabled = false; btn.textContent = t('gold_shield_btn');
-});
+        const conclKey = regim === 'local' ? 'gold_shield_concl_local' : 'gold_shield_concl_ext';
+        html += `<div style="margin-top:10px; padding:8px; border-radius:6px; background:rgba(74,222,128,0.1); border:1px solid var(--success); color:var(--success); font-weight:500;">${t(conclKey)}</div>`;
+
+        showLocal(outShield, html, false, true);
+        btn.disabled = false; btn.textContent = t('gold_shield_btn');
+    });
 
     if (window.MathJax?.typesetPromise) {
-        requestAnimationFrame(() => MathJax.typesetPromise([ws]).catch(() => {}));
+        requestAnimationFrame(() => {
+            if (window.MathJax?.typesetPromise) {
+                window.MathJax.typesetPromise([ws]).catch(() => {});
+            }
+        });
     }
 }
