@@ -21,7 +21,6 @@ function factorize(n) {
     const factors = [];
     let temp = n;
     
-    // Optimizare: Dacă numărul este deja prim, evităm bucla for destructivă
     if (isPrimeSmart(temp)) {
         factors.push({ p: temp, count: 1 });
         return factors;
@@ -36,7 +35,6 @@ function factorize(n) {
             }
             factors.push({ p: p, count });
         }
-        // Fail-safe pentru a preveni blocarea totală în UI pe numere extrem de mari
         if (p > 500000n && isPrimeSmart(temp)) break;
     }
     if (temp > 1n) factors.push({ p: temp, count: 1 });
@@ -117,7 +115,7 @@ function generatePrimeShield(limit) {
 }
 
 // ============================================================================
-// 🎨 UI & RENDER STRUCTURATĂ ȘI SECURIZATĂ (Fără elemente redundante)
+// 🎨 UI & RENDER STRUCTURATĂ ȘI SECURIZATĂ (Adaptată complet i18n)
 // ============================================================================
 export function initUI() {
     const ws = document.getElementById('workspace');
@@ -171,12 +169,12 @@ export function initUI() {
             <div class="fhead" data-i18n="gold_shield_title">${t('gold_shield_title')}</div>
             <div class="fbody">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                    <input id="shield-2n" type="number" min="4" max="10000000" step="2" placeholder="Max: 10,000,000 (Limită Browser)" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
+                    <input id="shield-2n" type="number" min="4" max="10000000" step="2" placeholder="Max: 10,000,000" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:6px; background:var(--card-bg);">
                     <button id="btn-shield" data-i18n="gold_shield_btn" style="padding:6px 12px; background:var(--accent); color:#000; border:none; border-radius:6px; font-weight:600; cursor:pointer;">${t('gold_shield_btn')}</button>
                 </div>
                 
-                <div style="margin: 10px 0; padding: 10px; border-radius: 6px; background: rgba(230,126,34,0.1); border: 1px dashed #e67e22; font-size: 0.85rem; color: #e67e22; line-height: 1.4;">
-                    🚀 <strong>Senzații Tari?</strong> Pentru numere mari (până la $10^{12}$), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>.
+                <div style="margin: 10px 0; padding: 10px; border-radius: 6px; background: rgba(230,126,34,0.1); border: 1px dashed #e67e22; font-size: 0.85rem; color: #e67e22; line-height: 1.4;" data-i18n="gold_shield_python_notice">
+                    ${t('gold_shield_python_notice')}
                 </div>
                 
                 <div id="out-gold-shield" style="font-size:0.9rem; line-height:1.6; color:var(--text);"></div>
@@ -307,15 +305,15 @@ export function initUI() {
         const bariera = BigInt(document.getElementById('shield-2n').value);
         const btn = document.getElementById('btn-shield');
 
-        // Constante interne auto-calculate
+        // Limita de 10 perechi cerută de tine
         const PAIR_LIMIT = 10; 
 
         if (bariera < 4n || bariera % 2n !== 0n) {
-            return showLocal(outShield, `⚠️ Numărul trebuie să fie par și ≥ 4`, true);
+            return showLocal(outShield, t('gold_shield_input_err'), true);
         }
         
         if (bariera > 10000000000n) { 
-            return showLocal(outShield, `⚠️ Valoarea depășește limita absolută de 10 miliarde a aplicației.`, true);
+            return showLocal(outShield, t('gold_shield_max_err'), true);
         }
 
         btn.disabled = true; btn.textContent = '⏳ ' + t('gold_shield_calc');
@@ -326,14 +324,12 @@ export function initUI() {
         const windowSize = bariera > 1000000n ? 1000000 : Number(bariera);
         const startPoint = bariera - BigInt(windowSize);
         
-        // Calcul automat și sigur al radicalului (Matematic perfect pentru acuratețea ciurului)
         const limitRadical = Math.floor(Math.sqrt(Number(bariera)));
         const shield = generatePrimeShield(limitRadical);
 
         const bitSieve = new Uint8Array(windowSize + 1);
         bitSieve.fill(1); 
 
-        // Filtrare ciur segmentat local
         for (const p of shield) {
             const p_bi = BigInt(p);
             let startModulo = startPoint % p_bi;
@@ -375,14 +371,16 @@ export function initUI() {
 
         let regim = localPairs.length === 0 ? "extern" : (localPairs.length < PAIR_LIMIT ? "mixt" : "local");
 
+        // Construire metrici UI folosind exclusiv funcțiile i18n din dicționar
         let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
-        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Fereastră Segmentată Activă</span><strong class="accent">${windowSize.toLocaleString()} unități</strong></div>`;
-        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Dimensiune Scut (Prime vector)</span><strong class="success">${shield.length} numere prime (p ≤ ${limitRadical})</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_active_window')}</span><strong class="accent">${windowSize.toLocaleString()} ${t('gold_shield_units')}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_size')}</span><strong class="success">${shield.length} ${t('gold_shield_primes')} (p ≤ ${limitRadical})</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_speed')}</span><strong class="success">${t('gold_shield_local_sieve')}</strong></div>`;
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_mode')}</span><strong class="success">${t('gold_shield_mode_' + regim)}</strong></div>`;
-        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Candidați verificați</span><strong>${oddCandidates.toLocaleString()}</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_candidates')}</span><strong>${oddCandidates.toLocaleString()}</strong></div>`;
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_blocked')}</span><strong class="warning">${blocked.toLocaleString()}</strong></div>`;
-        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span><strong>${time}s</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span>export  <strong>${time}s</strong></div>`;
         html += `</div>`;
 
         if (localPairs.length > 0) {
