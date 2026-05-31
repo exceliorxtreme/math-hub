@@ -469,7 +469,7 @@ gold_err_odd: "Introduceți un număr impar ≥ 7.",
   gold_shield_speed: "Viteză Filtrare",
   gold_shield_local_sieve: "Ciur local activat",
   gold_shield_candidates: "Candidați verificați",
-  gold_shield_python_notice: "🚀 <strong>Senzații Tari?</strong> Pentru numere mari (până la $10^{12}$), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>."
+  gold_shield_python_notice: "🚀 <strong>Senzații Tari?</strong> Pentru numere mari (până la $10^{12}$), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>.",
 
 
 
@@ -946,7 +946,7 @@ gold_shield_max_err: "⚠️ Value exceeds the absolute application limit of 10 
   gold_shield_speed: "Filtering Speed",
   gold_shield_local_sieve: "Local sieve activated",
   gold_shield_candidates: "Verified candidates",
-  gold_shield_python_notice: "🚀 <strong>Thrills?</strong> For large numbers (up to $10^{12}$), the browser will freeze. Use the ultra-fast native JIT-compiled Python engine included in the project folder: <code>core/python_engine.py</code>."
+  gold_shield_python_notice: "🚀 <strong>Thrills?</strong> For large numbers (up to $10^{12}$), the browser will freeze. Use the ultra-fast native JIT-compiled Python engine included in the project folder: <code>core/python_engine.py</code>.",
 
         
     }
