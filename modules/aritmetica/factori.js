@@ -186,7 +186,13 @@ export function initUI() {
     function showLocal(target, content, err = false, allowHtml = false) {
         if (!target) return;
         target.style.display = 'block';
-        target.textContent = String(content);
+        if (err) {
+            target.textContent = String(content);
+        } else if (allowHtml) {
+            target.innerHTML = content;
+        } else {
+            target.textContent = String(content);
+        }
         target.style.borderLeft = err ? '3px solid #e74c3c' : 'none';
         target.style.paddingLeft = err ? '8px' : '0';
         if (window.MathJax?.typesetPromise) {
