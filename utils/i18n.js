@@ -494,7 +494,22 @@ gold_shield_concl_ext: "✓ Saturație locală confirmată; soluții completate 
   "gold_shield_local_sieve": "Ciur local activat",
   "gold_shield_candidates": "Candidați verificați",
   "gold_shield_python_notice": "🚀 <strong>Senzații Tari?</strong> Pentru numere mari (până la $10^{12}$), browser-ul va îngheța. Folosește motorul nativ ultra-rapid compilat JIT în Python inclus în folderul proiectului: <code>core/python_engine.py</code>.",
-
+sum_product_title: "Suma și Produsul primelor k numere prime",
+sum_product_desc: "Calculează suma sau produsul primelor k numere prime folosind BigInt pentru precizie arbitrară.",
+sum_product_k: "Numărul de prime (k):",
+sum_product_k_ph: "Ex: 10",
+btn_sum: "Calculează Suma",
+btn_product: "Calculează Produsul",
+btn_product_calc: "Se calculează...",
+sum_result: "Suma:",
+product_result: "Produsul:",
+sum_product_err_k: "Introduceți un număr valid (k ≥ 1)",
+sum_product_err_max: "k nu poate depăși 9592 (numărul de prime sub 100.000)",
+sum_product_err_calc: "Eroare la calcul",
+sum_success: "Suma primelor {k} numere prime calculată cu succes!",
+product_success: "Produsul primelor {k} numere prime calculat în {time}s ({digits} cifre)",
+product_warn_large: "Produsul are {digits} cifre - număr foarte mare!",
+product_truncated: "trunchiat",
 
 
 
@@ -994,7 +1009,22 @@ gold_shield_concl_ext: "✓ Local saturation confirmed; solutions completed from
   "gold_shield_local_sieve": "Local sieve activated",
   "gold_shield_candidates": "Verified candidates",
   "gold_shield_python_notice": "🚀 <strong>Thrills?</strong> For large numbers (up to $10^{12}$), the browser will freeze. Use the ultra-fast native JIT-compiled Python engine included in the project folder: <code>core/python_engine.py</code>.",
-
+sum_product_title: "Sum and Product of first k primes",
+sum_product_desc: "Calculate the sum or product of the first k prime numbers using BigInt for arbitrary precision.",
+sum_product_k: "Number of primes (k):",
+sum_product_k_ph: "Ex: 10",
+btn_sum: "Calculate Sum",
+btn_product: "Calculate Product",
+btn_product_calc: "Calculating...",
+sum_result: "Sum:",
+product_result: "Product:",
+sum_product_err_k: "Enter a valid number (k ≥ 1)",
+sum_product_err_max: "k cannot exceed 9592 (number of primes below 100,000)",
+sum_product_err_calc: "Calculation error",
+sum_success: "Sum of first {k} primes calculated successfully!",
+product_success: "Product of first {k} primes calculated in {time}s ({digits} digits)",
+product_warn_large: "Product has {digits} digits - very large number!",
+product_truncated: "truncated",
     }
 };
 
