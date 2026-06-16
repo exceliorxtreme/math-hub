@@ -67,7 +67,199 @@ math-hub/
 │   └── python_engine.py
 |   └──requirements.txt
 ```
+```
+math-hub/
+├── .gitignore
+├── .nojekyll
+├── LICENCE
+├── SECURITY.md
+├── core/
+│   ├── python_engine.py
+│   └── requirements.txt
+├── css/
+│   └── style.css
+├── index.html
+├── main.js
+├── modules/
+│   ├── algebra/
+│   │   ├── identitati.js
+│   │   └── inegalitati.js
+│   ├── analiza/
+│   │   ├── deriv.js
+│   │   ├── dersup.js
+│   │   ├── grafice.js
+│   │   ├── hiperb.js
+│   │   ├── integrale.js
+│   │   ├── inversetrig.js
+│   │   ├── limite.js
+│   │   ├── reguli.js
+│   │   └── taylor.js
+│   ├── aritmetica/
+│   │   ├── baze.js
+│   │   ├── combinari.js
+│   │   ├── factori.js
+│   │   ├── fractii.js
+│   │   ├── functii_num.js
+│   │   ├── pitagorice.js
+│   │   ├── prime.js
+│   │   └── suma_puteri.js
+│   ├── complexe/
+│   │   ├── calc.js
+│   │   ├── ecuatii.js
+│   │   └── intro.js
+│   ├── modulara/
+│   │   ├── continue.js
+│   │   ├── diofantice.js
+│   │   ├── mobius.js
+│   │   ├── op_modulo.js
+│   │   └── pell.js
+│   ├── probabilitati/
+│   │   ├── calc.js
+│   │   └── prezentare.js
+│   ├── statistica/
+│   │   ├── calc.js
+│   │   └── prezentare.js
+│   └── trig/
+│       ├── trig_form.js
+│       └── trig_val.js
+├── package-lock.json
+├── package.json
+├── readme.md
+├── resources.html
+├── scripts/
+│   ├── check-i18n.mjs
+│   ├── check-imports.mjs
+│   └── check-js.mjs
+├── utils/
+│   └── i18n.js
+└── vendor/
+    └── mathjax/
+        ├── LICENSE
+        └── es5/
+            ├── a11y/
+            │   ├── assistive-mml.js
+            │   ├── complexity.js
+            │   ├── explorer.js
+            │   ├── semantic-enrich.js
+            │   └── sre.js
+            ├── adaptors/
+            │   └── liteDOM.js
+            ├── core.js
+            ├── input/
+            │   ├── asciimath.js
+            │   ├── mml.js
+            │   ├── mml/
+            │   │   ├── entities.js
+            │   │   └── extensions/
+            │   │       ├── mml3.js
+            │   │       └── mml3.sef.json
+            │   ├── tex-base.js
+            │   ├── tex-full.js
+            │   ├── tex.js
+            │   └── tex/
+            │       └── extensions/
+            │           ├── action.js
+            │           ├── all-packages.js
+            │           ├── ams.js
+            │           ├── amscd.js
+            │           ├── autoload.js
+            │           ├── bbox.js
+            │           ├── boldsymbol.js
+            │           ├── braket.js
+            │           ├── bussproofs.js
+            │           ├── cancel.js
+            │           ├── cases.js
+            │           ├── centernot.js
+            │           ├── color.js
+            │           ├── colortbl.js
+            │           ├── colorv2.js
+            │           ├── configmacros.js
+            │           ├── empheq.js
+            │           ├── enclose.js
+            │           ├── extpfeil.js
+            │           ├── gensymb.js
+            │           ├── html.js
+            │           ├── mathtools.js
+            │           ├── mhchem.js
+            │           ├── newcommand.js
+            │           ├── noerrors.js
+            │           ├── noundefined.js
+            │           ├── physics.js
+            │           ├── require.js
+            │           ├── setoptions.js
+            │           ├── tagformat.js
+            │           ├── textcomp.js
+            │           ├── textmacros.js
+            │           ├── unicode.js
+            │           ├── upgreek.js
+            │           └── verb.js
+            ├── latest.js
+            ├── loader.js
+            ├── mml-chtml.js
+            ├── mml-svg.js
+            ├── node-main.js
+            ├── output/
+            │   ├── chtml.js
+            │   ├── chtml/
+            │   │   └── fonts/
+            │   │       ├── tex.js
+            │   │       └── woff-v2/
+            │   │           ├── MathJax_AMS-Regular.woff
+            │   │           ├── MathJax_Calligraphic-Bold.woff
+            │   │           ├── MathJax_Calligraphic-Regular.woff
+            │   │           ├── MathJax_Fraktur-Bold.woff
+            │   │           ├── MathJax_Fraktur-Regular.woff
+            │   │           ├── MathJax_Main-Bold.woff
+            │   │           ├── MathJax_Main-Italic.woff
+            │   │           ├── MathJax_Main-Regular.woff
+            │   │           ├── MathJax_Math-BoldItalic.woff
+            │   │           ├── MathJax_Math-Italic.woff
+            │   │           ├── MathJax_Math-Regular.woff
+            │   │           ├── MathJax_SansSerif-Bold.woff
+            │   │           ├── MathJax_SansSerif-Italic.woff
+            │   │           ├── MathJax_SansSerif-Regular.woff
+            │   │           ├── MathJax_Script-Regular.woff
+            │   │           ├── MathJax_Size1-Regular.woff
+            │   │           ├── MathJax_Size2-Regular.woff
+            │   │           ├── MathJax_Size3-Regular.woff
+            │   │           ├── MathJax_Size4-Regular.woff
+            │   │           ├── MathJax_Typewriter-Regular.woff
+            │   │           ├── MathJax_Vector-Bold.woff
+            │   │           ├── MathJax_Vector-Regular.woff
+            │   │           └── MathJax_Zero.woff
+            │   ├── svg.js
+            │   └── svg/
+            │       └── fonts/
+            │           └── tex.js
+            ├── sre/
+            │   └── mathmaps/
+            │       ├── base.json
+            │       ├── ca.json
+            │       ├── da.json
+            │       ├── de.json
+            │       ├── en.json
+            │       ├── es.json
+            │       ├── fr.json
+            │       ├── hi.json
+            │       ├── it.json
+            │       ├── nb.json
+            │       ├── nemeth.json
+            │       ├── nn.json
+            │       └── sv.json
+            ├── startup.js
+            ├── tex-chtml-full-speech.js
+            ├── tex-chtml-full.js
+            ├── tex-chtml.js
+            ├── tex-mml-chtml.js
+            ├── tex-mml-svg.js
+            ├── tex-svg-full.js
+            ├── tex-svg.js
+            └── ui/
+                ├── lazy.js
+                ├── menu.js
+                └── safe.js
 
+```
 ---
 
 ## ▶️ Rulare locală
