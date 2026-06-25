@@ -2,6 +2,15 @@
 import { t } from '../../utils/i18n.js';
 
 // ============================================================================
+// 🔒 SECURITY: Escape HTML pentru prevenirea XSS
+// ============================================================================
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+}
+
+// ============================================================================
 // 🔢 HELPERS ARITMETICE (BigInt safe & Precision Fixed)
 // ============================================================================
 function gcd(a, b) {
@@ -221,7 +230,7 @@ export function initUI() {
             const factors = factorize(a);
             const latex = factors.map(f => f.count === 1 ? `${f.p}` : `${f.p}^{${f.count}}`).join(' \\times ');
             showLocal(outTop, `\\(${a} = ${latex}\\)`, false, true);
-        } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
+        } catch (e) { showLocal(outTop, `❌ ${escapeHtml(e.message)}`, true); }
     });
 
     document.getElementById('btn-gcd').addEventListener('click', () => {
@@ -230,7 +239,7 @@ export function initUI() {
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min'));
             const rez = gcd(a, b);
             showLocal(outTop, `\\(CMMDC(${a}, ${b}) = ${rez}\\)`, false, true);
-        } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
+        } catch (e) { showLocal(outTop, `❌ ${escapeHtml(e.message)}`, true); }
     });
 
     document.getElementById('btn-lcm').addEventListener('click', () => {
@@ -239,7 +248,7 @@ export function initUI() {
             if (a < 1n || b < 1n) throw new Error(t('fact_err_min'));
             const rez = lcm(a, b);
             showLocal(outTop, `\\(CMMMC(${a}, ${b}) = ${rez}\\)`, false, true);
-        } catch (e) { showLocal(outTop, `❌ ${e.message}`, true); }
+        } catch (e) { showLocal(outTop, `❌ ${escapeHtml(e.message)}`, true); }
     });
 
     const btnGold = document.getElementById('btn-gold');
@@ -294,7 +303,7 @@ export function initUI() {
                         showLocal(outGold, `✅ ${t('gold_found')} ${totalMsg}${showMsg}:<br>${latex}`, false, true);
                     }
                 } catch(e) {
-                    showLocal(outGold, `❌ ${e.message}`, true);
+                    showLocal(outGold, `❌ ${escapeHtml(e.message)}`, true);
                 }
                 btnGold.disabled = false; btnGold.textContent = t('gold_btn');
             }, 50);
@@ -305,7 +314,6 @@ export function initUI() {
         const bariera = BigInt(document.getElementById('shield-2n').value);
         const btn = document.getElementById('btn-shield');
 
-        // Limita de 10 perechi cerută de tine
         const PAIR_LIMIT = 10; 
 
         if (bariera < 4n || bariera % 2n !== 0n) {
@@ -371,7 +379,6 @@ export function initUI() {
 
         let regim = localPairs.length === 0 ? "extern" : (localPairs.length < PAIR_LIMIT ? "mixt" : "local");
 
-        // Construire metrici UI folosind exclusiv funcțiile i18n din dicționar
         let html = `<div style="background:var(--card-bg); padding:8px; border-radius:6px; margin-bottom:8px; font-family:monospace; font-size:0.85rem;">`;
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_2n')}</span><strong>${bariera.toLocaleString()}</strong></div>`;
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_active_window')}</span><strong class="accent">${windowSize.toLocaleString()} ${t('gold_shield_units')}</strong></div>`;
@@ -380,7 +387,7 @@ export function initUI() {
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_mode')}</span><strong class="success">${t('gold_shield_mode_' + regim)}</strong></div>`;
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_candidates')}</span><strong>${oddCandidates.toLocaleString()}</strong></div>`;
         html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_blocked')}</span><strong class="warning">${blocked.toLocaleString()}</strong></div>`;
-        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span>export  <strong>${time}s</strong></div>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span>${t('gold_shield_metric_time')}</span><strong>${time}s</strong></div>`;
         html += `</div>`;
 
         if (localPairs.length > 0) {
